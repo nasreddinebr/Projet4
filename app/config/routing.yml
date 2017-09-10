@@ -1,0 +1,7 @@
+acme_louvre:
+    resource: "@AcmeLouvreBundle/Resources/config/routing.yml"
+    prefix:   /
+
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation
