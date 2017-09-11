@@ -8,10 +8,13 @@ namespace Acme\LouvreBundle\Controller;
  * @package \Acme\LouvreBundle\Controller
  */
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Response;
+
 class LouvreController extends Controller
 {
     public function indexAction(){
-        return $this->render('AcmeLouvreBundle:Louvre:index.html.twig');
+        $contenue = $this->get('templating')->render('AcmeLouvreBundle:Louvre:index.html.twig');
+        return new Response($contenue);
     }
 
 }
