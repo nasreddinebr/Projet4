@@ -1,11 +1,21 @@
 acme_louvre_homepage:
     path:     /
-    defaults: { _controller: AcmeLouvreBundle:Louvre:index }
+    defaults:
+        _controller: AcmeLouvreBundle:Louvre:index
 
 acme_louvre_billetterie:
     path:     /billetterie
-    defaults: { _controller: AcmeLouvreBundle:Louvre:achatBillet }
+    defaults:
+        _controller: AcmeLouvreBundle:Louvre:achatBillets
 
 acme_louvre_detaille:
-    path:     /detaille
-    defaults: { _controller: AcmeLouvreBundle:Louvre:detalleBillet }
+    path:     /detaille/{id}
+    defaults:
+        _controller: AcmeLouvreBundle:Louvre:detailleBillets
+    requirements:
+        id: \d+
+
+acme_louvre_enregistrer:
+    path:     /enregistrer
+    defaults:
+        _controller: AcmeLouvreBundle:Louvre:enregistrerBillets
