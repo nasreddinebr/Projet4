@@ -1,0 +1,98 @@
+{# On utilise ici le layout général, qui se situe dans ce même CoreBundle maintenant #}
+{% extends "AcmeCoreBundle::layout.html.twig" %}
+
+{% block title %}
+    Page d'accueil - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <!-- Intro Header -->
+
+    <header class="masthead" id="home">
+        <div class="intro-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <h1 class="brand-heading">Bienvenue au musée de Louvre</h1>
+                        <a href="{{ path('acme_louvre_billetterie') }}" class="btn btn-default btn-lg">Acheter votre billet</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- Section Informations -->
+    <section id="about" class="content-section text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <h2>Informations</h2>
+                    <p>
+                        - Le musée est ouvert tous les jours de 9h à 18h excepté le mardi.
+                        (fermeture des salles à partir de 17h30)<br>
+
+                        - Le musée est ouvert en nocturne jusqu'à 21h45 le mercredi et le vendredi.
+                        (fermeture des salles à partir de 21h30)<br>
+
+                        Chaque premier dimanche des mois d'octobre à mars, l'entrée au musée du Louvre est gratuite pour tous les visiteurs.
+                        <br>
+                        Accès :
+                        <br>
+                        - Les accès par la Pyramide et la galerie du Carrousel : ouvert tous les jours sauf le mardi, de 9h à 19h30 et jusqu'à 22h le mercredi et le vendredi.
+                        <br>
+                        - Passage Richelieu : ouvert tous les jours, sauf le mardi, de 9h à 17h30 et jusqu’à 18h00 le mercredi et le vendredi.
+                        <br>
+                        - Porte des Lions : Cet accès est réservé aux visiteurs en groupe.
+
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Download Section -->
+    <section id="download" class="download-section content-section text-center">
+        <div class="container">
+            <div class="col-lg-8 mx-auto">
+                <h2>Visite guidée</h2>
+                <p>Les visites guidées du Louvre sont conduites par les conférenciers des Musées Nationaux. Que vous veniez pour la première fois ou que vous soyez un habitué, trouvez la visite qui vous correspond, parmi le large choix de thématiques qui vous est proposé. </p>
+                <p>Vous pouvez également consultez le plan interactif du musée du Louvre pour organiser votre visite.</p>
+                <!--a href="http://startbootstrap.com/template-overviews/grayscale/" class="btn btn-default btn-lg">Visites guidée</a-->
+                <a href="http://www.louvre.fr/sites/default/files/medias/medias_fichiers/fichiers/pdf/louvre-plan-information-francais.pdf" class="btn btn-circle page-scroll">
+                    <i class="fa fa-angle-double-down animated"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="content-section text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <h2>Nous contacter</h2>
+                    <p>Adresse :</p>
+                    <p>Musée du Louvre, 75058 Paris - France</p>
+                    <p>Téléphone :</p>
+                    <p>+ 33 (0)1 40 20 53 17</p>
+                    <ul class="list-inline banner-social-buttons">
+                        <li class="list-inline-item">
+                            <a href="https://twitter.com/museelouvre?lang=fr" class="btn btn-default btn-lg"><i class="fa fa-twitter fa-fw"></i> <span class="network-name">Twitter</span></a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="https://www.facebook.com/museedulouvre/" class="btn btn-default btn-lg"><i class="fa fa-facebook fa-fw"></i> <span class="network-name">Facebook
+                                </span></a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="https://plus.google.com/+MuseeLouvre" class="btn btn-default btn-lg"><i class="fa fa-google-plus fa-fw"></i> <span class="network-name">Google+</span></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <div id="map"></div>
+{% endblock %}

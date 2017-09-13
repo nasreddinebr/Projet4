@@ -1,14 +1,37 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Cette page affichera le formulaire d'achat des billets!!!</h1>
 
-</body>
-</html>
+
+{% extends "AcmeLouvreBundle::layout.html.twig" %}
+
+{% block body %}
+
+    <div style="margin-top: 100px; background: #42A5F5; color: white">
+        <p>
+            <a title="Retour à l'accueil" id="path-home" href="{{ path('acme_louvre_homepage') }}">
+                Retour à l'accueil
+            </a>
+            <span>&gt;</span>
+            <span class="crumbName">Billetrie automatique</span>
+        </p>
+    </div>
+
+
+    <header style="margin-top: 100px">
+        <div class="intro-body">
+            <div class="row">
+                <div class="col-lg-8 mx-auto" style="text-align: center">
+                    <h2>Musée du Louvre</h2>
+                    <p>
+                        Entrée libre, sans billet, sur présentation d’un justificatif pour les moins de 18 ans,
+                        les 18-25 ans résidents de l’Espace Economique Européen,
+                        les personnes handicapées et leur accompagnateur,
+                        et les bénéficiaires des minima sociaux.<br>
+                        Billet valable seulement le jour sélectionné.
+                    </p>
+                </div>
+            </div>
+            <div class="container" style="text-align: center; color: #ffffff; border: 1px solid white ">
+                <h3>Ici sera afficher le formulaire d'achat des billets</h3>
+            </div>
+        </div>
+    </header>
+{% endblock %}
