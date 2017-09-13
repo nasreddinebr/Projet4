@@ -17,4 +17,9 @@ class LouvreController extends Controller
         return new Response($contenue);
     }
 
+    public function achatBilletAction() {
+        $pageAchat = $this->get('templating')->render('AcmeLouvreBundle:Louvre:achatBillet.html.twig');
+        return new Response($pageAchat);
+    }
+
 }
