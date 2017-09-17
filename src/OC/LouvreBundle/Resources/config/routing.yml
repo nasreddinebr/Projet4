@@ -1,0 +1,21 @@
+oc_louvre_homepage:
+    path:     /
+    defaults:
+        _controller: OCLouvreBundle:Louvre:index
+
+oc_louvre_billetterie:
+    path:     /billetterie
+    defaults:
+        _controller: OCLouvreBundle:Louvre:achatBillets
+
+oc_louvre_detaille:
+    path:     /detaille/{id}
+    defaults:
+        _controller: OCLouvreBundle:Louvre:detailleBillets
+    requirements:
+        id: \d+
+
+oc_louvre_enregistrer:
+    path:     /enregistrer
+    defaults:
+        _controller: OCLouvreBundle:Louvre:enregistrerBillets

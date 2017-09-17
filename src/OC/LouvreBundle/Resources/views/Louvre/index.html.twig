@@ -1,5 +1,6 @@
 {# On utilise ici le layout général, qui se situe dans ce même CoreBundle maintenant #}
-{% extends "AcmeCoreBundle::layout.html.twig" %}
+
+{% extends "OCLouvreBundle::layout.html.twig" %}
 
 {% block title %}
     Page d'accueil - {{ parent() }}
@@ -14,7 +15,7 @@
                 <div class="row">
                     <div class="col-lg-8 mx-auto">
                         <h1 class="brand-heading">Bienvenue au musée de Louvre</h1>
-                        <a href="{{ path('acme_louvre_billetterie') }}" class="btn btn-default btn-lg">Acheter votre billet</a>
+                        <a href="{{ path('oc_louvre_billetterie') }}" class="btn btn-default btn-lg">Acheter votre billet</a>
                     </div>
                 </div>
             </div>

@@ -1,7 +1,3 @@
-acme_core:
-    resource: "@AcmeCoreBundle/Resources/config/routing.yml"
-
-
-acme_louvre:
-    resource: "@AcmeLouvreBundle/Resources/config/routing.yml"
+oc_louvre:
+    resource: "@OCLouvreBundle/Resources/config/routing.yml"
     prefix:   /

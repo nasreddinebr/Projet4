@@ -1,6 +1,6 @@
 <?php
 
-namespace Acme\LouvreBundle\Controller;
+namespace OC\LouvreBundle\Controller;
 
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -11,13 +11,13 @@ class LouvreController extends Controller
 {
     public function indexAction(){
         //page d'accueil
-        $contenue = $this->get('templating')->render('AcmeLouvreBundle:Louvre:index.html.twig');
+        $contenue = $this->get('templating')->render('OCLouvreBundle:Louvre:index.html.twig');
         return new Response($contenue);
     }
 
     public function achatBilletsAction() {
         // Page du Formulaire d'achat des billets
-        $pageAchat = $this->get('templating')->render('AcmeLouvreBundle:Louvre:achatBillet.html.twig');
+        $pageAchat = $this->get('templating')->render('OCLouvreBundle:Louvre:achatBillet.html.twig');
         return new Response($pageAchat);
     }
 
@@ -39,7 +39,7 @@ class LouvreController extends Controller
          * sur la base de donnée.
          */
         // Générer l'URL de la page de détaille
-        $url = $this->generateUrl('acme_louvre_detaille', array('id' => 7));
+        $url = $this->generateUrl('oc_louvre_detaille', array('id' => 7));
         return $this->redirect($url);
     }
 
