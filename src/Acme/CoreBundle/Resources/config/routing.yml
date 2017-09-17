@@ -1,0 +1,4 @@
+acme_core_home:
+    path:     /
+    defaults:
+        _controller: AcmeCoreBundle:Core:index

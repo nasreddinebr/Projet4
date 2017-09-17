@@ -1,6 +1,6 @@
 <?php
 
-namespace OC\LouvreBundle\DependencyInjection;
+namespace Acme\CoreBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\Loader;
  *
  * @link http://symfony.com/doc/current/cookbook/bundles/extension.html
  */
-class OCLouvreExtension extends Extension
+class AcmeCoreExtension extends Extension
 {
     /**
      * {@inheritdoc}
