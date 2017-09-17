@@ -1,6 +1,6 @@
 <?php
 
-namespace Acme\LouvreBundle\Tests\Controller;
+namespace OC\LouvreBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
