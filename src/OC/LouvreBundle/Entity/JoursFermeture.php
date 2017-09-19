@@ -24,9 +24,9 @@ class JoursFermeture
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="date_fermeture", type="date")
+     * @ORM\Column(name="jours_fermeture", type="string")
      */
-    private $dateFermeture;
+    private $joursFermeture;
 
 
     /**
@@ -46,9 +46,9 @@ class JoursFermeture
      *
      * @return JoursFermeture
      */
-    public function setDateFermeture($dateFermeture)
+    public function setJoursFermeture($joursFermeture)
     {
-        $this->dateFermeture = $dateFermeture;
+        $this->joursFermeture = $joursFermeture;
 
         return $this;
     }
@@ -58,9 +58,9 @@ class JoursFermeture
      *
      * @return \DateTime
      */
-    public function getDateFermeture()
+    public function getJoursFermeture()
     {
-        return $this->dateFermeture;
+        return $this->joursFermeture;
     }
 }
 
