@@ -138,52 +138,5 @@ class Billets
     {
         return $this->prixTotal;
     }
-
-    /**
-     * Set idProduit
-     *
-     * @param integer $idProduit
-     *
-     * @return Billets
-     */
-    public function setIdProduit($idProduit)
-    {
-        $this->idProduit = $idProduit;
-
-        return $this;
-    }
-
-    /**
-     * Get idProduit
-     *
-     * @return integer
-     */
-    public function getIdProduit()
-    {
-        return $this->idProduit;
-    }
-
-    /**
-     * Set idPaiement
-     *
-     * @param integer $idPaiement
-     *
-     * @return Billets
-     */
-    public function setIdPaiement($idPaiement)
-    {
-        $this->idPaiement = $idPaiement;
-
-        return $this;
-    }
-
-    /**
-     * Get idPaiement
-     *
-     * @return integer
-     */
-    public function getIdPaiement()
-    {
-        return $this->idPaiement;
-    }
 }
+

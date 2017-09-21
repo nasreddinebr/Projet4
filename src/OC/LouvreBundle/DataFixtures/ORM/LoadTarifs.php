@@ -15,5 +15,24 @@ class LoadTarifs implements FixtureInterface
 {
     public function load(ObjectManager $manager)
     {
+        // liste des tarifs
+        $tarifs = array(
+            'normal',
+            'enfant',
+            'senior',
+            'reduit'
+        );
+
+        foreach ($tarifs as $tarif) {
+            // On crée le produit
+            $tarifBillet = new Tarifs();
+            $tarifBillet->setNomTarif($tarif);
+
+            // On la persiste
+            $manager->persist($tarifBillet);
+        }
+
+        // On déclenche l'enregistrement de toutes les produits
+        $manager->flush();
     }
 }

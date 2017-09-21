@@ -169,52 +169,5 @@ class Clients
     {
         return $this->pays;
     }
-
-    /**
-     * Set idBillet
-     *
-     * @param integer $idBillet
-     *
-     * @return Clients
-     */
-    public function setIdBillet($idBillet)
-    {
-        $this->idBillet = $idBillet;
-
-        return $this;
-    }
-
-    /**
-     * Get idBillet
-     *
-     * @return integer
-     */
-    public function getIdBillet()
-    {
-        return $this->idBillet;
-    }
-
-    /**
-     * Set idTarif
-     *
-     * @param integer $idTarif
-     *
-     * @return Clients
-     */
-    public function setIdTarif($idTarif)
-    {
-        $this->idTarif = $idTarif;
-
-        return $this;
-    }
-
-    /**
-     * Get idTarif
-     *
-     * @return integer
-     */
-    public function getIdTarif()
-    {
-        return $this->idTarif;
-    }
 }
+
