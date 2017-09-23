@@ -1,0 +1,50 @@
+<?php
+
+namespace OC\LouvreBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * TarifProduit
+ *
+ * @ORM\Table(name="tarif_produit")
+ * @ORM\Entity(repositoryClass="OC\LouvreBundle\Repository\TarifProduitRepository")
+ */
+class TarifProduit
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="localisateur_prix", type="integer", unique=true)
+     */
+    private $localisateurPrix;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="prixUnitaire", type="decimal", precision=10, scale=2)
+     */
+    private $prixUnitaire;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="OC\LouvreBundle\Entity\Tarifs"))
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $tarif;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="OC\LouvreBundle\Entity\Produits"))
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $produit;
+
+}

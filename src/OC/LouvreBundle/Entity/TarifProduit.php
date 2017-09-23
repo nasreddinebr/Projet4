@@ -24,16 +24,9 @@ class TarifProduit
     /**
      * @var int
      *
-     * @ORM\Column(name="produitId", type="integer")
+     * @ORM\Column(name="localisateur_prix", type="integer", unique=true)
      */
-    private $produitId;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="tarifId", type="integer")
-     */
-    private $tarifId;
+    private $localisateurPrix;
 
     /**
      * @var string
@@ -42,11 +35,23 @@ class TarifProduit
      */
     private $prixUnitaire;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="OC\LouvreBundle\Entity\Tarifs"))
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $tarif;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="OC\LouvreBundle\Entity\Produits"))
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $produit;
+
 
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -54,51 +59,27 @@ class TarifProduit
     }
 
     /**
-     * Set produitId
+     * Set localisateurPrix
      *
-     * @param integer $produitId
+     * @param integer $localisateurPrix
      *
      * @return TarifProduit
      */
-    public function setProduitId($produitId)
+    public function setLocalisateurPrix($localisateurPrix)
     {
-        $this->produitId = $produitId;
+        $this->localisateurPrix = $localisateurPrix;
 
         return $this;
     }
 
     /**
-     * Get produitId
+     * Get localisateurPrix
      *
-     * @return int
+     * @return integer
      */
-    public function getProduitId()
+    public function getLocalisateurPrix()
     {
-        return $this->produitId;
-    }
-
-    /**
-     * Set tarifId
-     *
-     * @param integer $tarifId
-     *
-     * @return TarifProduit
-     */
-    public function setTarifId($tarifId)
-    {
-        $this->tarifId = $tarifId;
-
-        return $this;
-    }
-
-    /**
-     * Get tarifId
-     *
-     * @return int
-     */
-    public function getTarifId()
-    {
-        return $this->tarifId;
+        return $this->localisateurPrix;
     }
 
     /**
@@ -124,5 +105,52 @@ class TarifProduit
     {
         return $this->prixUnitaire;
     }
-}
 
+    /**
+     * Set tarif
+     *
+     * @param \OC\LouvreBundle\Entity\Tarifs $tarif
+     *
+     * @return TarifProduit
+     */
+    public function setTarif(\OC\LouvreBundle\Entity\Tarifs $tarif)
+    {
+        $this->tarif = $tarif;
+
+        return $this;
+    }
+
+    /**
+     * Get tarif
+     *
+     * @return \OC\LouvreBundle\Entity\Tarifs
+     */
+    public function getTarif()
+    {
+        return $this->tarif;
+    }
+
+    /**
+     * Set produit
+     *
+     * @param \OC\LouvreBundle\Entity\Produits $produit
+     *
+     * @return TarifProduit
+     */
+    public function setProduit(\OC\LouvreBundle\Entity\Produits $produit)
+    {
+        $this->produit = $produit;
+
+        return $this;
+    }
+
+    /**
+     * Get produit
+     *
+     * @return \OC\LouvreBundle\Entity\Produits
+     */
+    public function getProduit()
+    {
+        return $this->produit;
+    }
+}

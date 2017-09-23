@@ -63,3 +63,4 @@ class JoursFermeture
         return $this->joursFermeture;
     }
 }
+

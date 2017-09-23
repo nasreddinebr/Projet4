@@ -2,8 +2,8 @@
 -- version 4.2.12deb2+deb8u2
 -- http://www.phpmyadmin.net
 --
--- Client :  localhost:80
--- Généré le :  Jeu 21 Septembre 2017 à 14:40
+-- Client :  localhost
+-- Généré le :  Sam 23 Septembre 2017 à 16:03
 -- Version du serveur :  5.5.57-0+deb8u1
 -- Version de PHP :  5.6.30-0+deb8u1
 
@@ -31,8 +31,7 @@ CREATE TABLE IF NOT EXISTS `billets` (
   `numero_billet` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `date_resrvation` date NOT NULL,
   `prix_total` decimal(10,2) NOT NULL,
-  `id_produit` int(11) NOT NULL,
-  `id_paiement` int(11) NOT NULL
+  `paiment_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -47,8 +46,7 @@ CREATE TABLE IF NOT EXISTS `clients` (
   `prenom` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `date_naissance` date NOT NULL,
   `pays` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
-  `id_billet` int(11) NOT NULL,
-  `id_tarif` int(11) NOT NULL
+  `billet_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -59,17 +57,8 @@ CREATE TABLE IF NOT EXISTS `clients` (
 
 CREATE TABLE IF NOT EXISTS `jours_fermeture` (
 `id` int(11) NOT NULL,
-  `jours_fermeture` varchar(255) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Contenu de la table `jours_fermeture`
---
-
-INSERT INTO `jours_fermeture` (`id`, `jours_fermeture`) VALUES
-(43, '01/05'),
-(44, '01/11'),
-(45, '25/12');
+  `jours_fermeture` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -96,15 +85,7 @@ CREATE TABLE IF NOT EXISTS `paiements` (
 CREATE TABLE IF NOT EXISTS `produits` (
 `id` int(11) NOT NULL,
   `nom_produit` varchar(255) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Contenu de la table `produits`
---
-
-INSERT INTO `produits` (`id`, `nom_produit`) VALUES
-(1, 'Journee'),
-(2, 'Demi-journee');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -115,17 +96,7 @@ INSERT INTO `produits` (`id`, `nom_produit`) VALUES
 CREATE TABLE IF NOT EXISTS `tarifs` (
 `id` int(11) NOT NULL,
   `nom_tarif` varchar(255) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Contenu de la table `tarifs`
---
-
-INSERT INTO `tarifs` (`id`, `nom_tarif`) VALUES
-(1, 'normal'),
-(2, 'enfant'),
-(3, 'senior'),
-(4, 'reduit');
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -135,24 +106,11 @@ INSERT INTO `tarifs` (`id`, `nom_tarif`) VALUES
 
 CREATE TABLE IF NOT EXISTS `tarif_produit` (
 `id` int(11) NOT NULL,
-  `produitId` int(11) NOT NULL,
-  `tarifId` int(11) NOT NULL,
-  `prixUnitaire` decimal(10,2) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Contenu de la table `tarif_produit`
---
-
-INSERT INTO `tarif_produit` (`id`, `produitId`, `tarifId`, `prixUnitaire`) VALUES
-(1, 1, 1, 16.00),
-(2, 1, 2, 8.00),
-(3, 1, 3, 12.00),
-(4, 1, 4, 10.00),
-(5, 2, 1, 10.00),
-(6, 2, 2, 5.00),
-(7, 2, 3, 8.00),
-(8, 2, 4, 6.00);
+  `tarif_id` int(11) NOT NULL,
+  `prixUnitaire` decimal(10,2) NOT NULL,
+  `produit_id` int(11) NOT NULL,
+  `localisateur_prix` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 --
 -- Index pour les tables exportées
@@ -162,13 +120,13 @@ INSERT INTO `tarif_produit` (`id`, `produitId`, `tarifId`, `prixUnitaire`) VALUE
 -- Index pour la table `billets`
 --
 ALTER TABLE `billets`
- ADD PRIMARY KEY (`id`);
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `UNIQ_4FCF9B6878789290` (`paiment_id`);
 
 --
 -- Index pour la table `clients`
 --
 ALTER TABLE `clients`
- ADD PRIMARY KEY (`id`);
+ ADD PRIMARY KEY (`id`), ADD KEY `IDX_C82E7444973C78` (`billet_id`);
 
 --
 -- Index pour la table `jours_fermeture`
@@ -198,7 +156,7 @@ ALTER TABLE `tarifs`
 -- Index pour la table `tarif_produit`
 --
 ALTER TABLE `tarif_produit`
- ADD PRIMARY KEY (`id`);
+ ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `UNIQ_5AC49E623690902` (`localisateur_prix`), ADD KEY `IDX_5AC49E62357C0A59` (`tarif_id`), ADD KEY `IDX_5AC49E62F347EFB` (`produit_id`);
 
 --
 -- AUTO_INCREMENT pour les tables exportées
@@ -218,7 +176,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT pour la table `jours_fermeture`
 --
 ALTER TABLE `jours_fermeture`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=46;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT pour la table `paiements`
 --
@@ -228,17 +186,40 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 -- AUTO_INCREMENT pour la table `produits`
 --
 ALTER TABLE `produits`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT pour la table `tarifs`
 --
 ALTER TABLE `tarifs`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT pour la table `tarif_produit`
 --
 ALTER TABLE `tarif_produit`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- Contraintes pour les tables exportées
+--
+
+--
+-- Contraintes pour la table `billets`
+--
+ALTER TABLE `billets`
+ADD CONSTRAINT `FK_4FCF9B6878789290` FOREIGN KEY (`paiment_id`) REFERENCES `paiements` (`id`);
+
+--
+-- Contraintes pour la table `clients`
+--
+ALTER TABLE `clients`
+ADD CONSTRAINT `FK_C82E7444973C78` FOREIGN KEY (`billet_id`) REFERENCES `billets` (`id`);
+
+--
+-- Contraintes pour la table `tarif_produit`
+--
+ALTER TABLE `tarif_produit`
+ADD CONSTRAINT `FK_5AC49E62F347EFB` FOREIGN KEY (`produit_id`) REFERENCES `produits` (`id`),
+ADD CONSTRAINT `FK_5AC49E62357C0A59` FOREIGN KEY (`tarif_id`) REFERENCES `tarifs` (`id`);
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

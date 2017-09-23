@@ -50,18 +50,10 @@ class Clients
     private $pays;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id_billet", type="integer")
+     * @ORM\ManyToOne(targetEntity="OC\LouvreBundle\Entity\Billets"))
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $idBillet;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id_tarif", type="integer")
-     */
-    private $idTarif;
+    private $billet;
 
 
     /**
@@ -169,52 +161,29 @@ class Clients
     {
         return $this->pays;
     }
+    
 
     /**
-     * Set idBillet
+     * Set billet
      *
-     * @param integer $idBillet
+     * @param \OC\LouvreBundle\Entity\Billets $billet
      *
      * @return Clients
      */
-    public function setIdBillet($idBillet)
+    public function setBillet(\OC\LouvreBundle\Entity\Billets $billet)
     {
-        $this->idBillet = $idBillet;
+        $this->billet = $billet;
 
         return $this;
     }
 
     /**
-     * Get idBillet
+     * Get billet
      *
-     * @return integer
+     * @return \OC\LouvreBundle\Entity\Billets
      */
-    public function getIdBillet()
+    public function getBillet()
     {
-        return $this->idBillet;
-    }
-
-    /**
-     * Set idTarif
-     *
-     * @param integer $idTarif
-     *
-     * @return Clients
-     */
-    public function setIdTarif($idTarif)
-    {
-        $this->idTarif = $idTarif;
-
-        return $this;
-    }
-
-    /**
-     * Get idTarif
-     *
-     * @return integer
-     */
-    public function getIdTarif()
-    {
-        return $this->idTarif;
+        return $this->billet;
     }
 }

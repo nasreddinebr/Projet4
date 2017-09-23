@@ -43,18 +43,10 @@ class Billets
     private $prixTotal;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id_produit", type="integer")
+     * @ORM\OneToOne(targetEntity="OC\LouvreBundle\Entity\Paiements", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $idProduit;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id_paiement", type="integer")
-     */
-    private $idPaiement;
+    private $paiment;
 
 
     /**
@@ -139,51 +131,28 @@ class Billets
         return $this->prixTotal;
     }
 
+
     /**
-     * Set idProduit
+     * Set paiment
      *
-     * @param integer $idProduit
+     * @param \OC\LouvreBundle\Entity\Paiements $paiment
      *
      * @return Billets
      */
-    public function setIdProduit($idProduit)
+    public function setPaiment(\OC\LouvreBundle\Entity\Paiements $paiment)
     {
-        $this->idProduit = $idProduit;
+        $this->paiment = $paiment;
 
         return $this;
     }
 
     /**
-     * Get idProduit
+     * Get paiment
      *
-     * @return integer
+     * @return \OC\LouvreBundle\Entity\Paiements
      */
-    public function getIdProduit()
+    public function getPaiment()
     {
-        return $this->idProduit;
-    }
-
-    /**
-     * Set idPaiement
-     *
-     * @param integer $idPaiement
-     *
-     * @return Billets
-     */
-    public function setIdPaiement($idPaiement)
-    {
-        $this->idPaiement = $idPaiement;
-
-        return $this;
-    }
-
-    /**
-     * Get idPaiement
-     *
-     * @return integer
-     */
-    public function getIdPaiement()
-    {
-        return $this->idPaiement;
+        return $this->paiment;
     }
 }
