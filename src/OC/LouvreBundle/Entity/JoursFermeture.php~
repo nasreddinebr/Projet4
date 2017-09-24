@@ -24,7 +24,7 @@ class JoursFermeture
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="jours_fermeture", type="date")
+     * @ORM\Column(name="jours_fermeture", type="string")
      */
     private $joursFermeture;
 
@@ -38,29 +38,4 @@ class JoursFermeture
     {
         return $this->id;
     }
-
-    /**
-     * Set dateFermeture
-     *
-     * @param \DateTime $dateFermeture
-     *
-     * @return JoursFermeture
-     */
-    public function setJoursFermeture($joursFermeture)
-    {
-        $this->joursFermeture = $joursFermeture;
-
-        return $this;
-    }
-
-    /**
-     * Get dateFermeture
-     *
-     * @return \DateTime
-     */
-    public function getJoursFermeture()
-    {
-        return $this->joursFermeture;
-    }
 }
-
