@@ -1,0 +1,62 @@
+<div class="well">
+    {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+
+    {# Les erreurs générales du formulaire. #}
+    {{ form_errors(form) }}
+
+
+    {# Génération du label + error + widget pour un champ. #}
+
+
+    <div class="form-inline">
+        <div class="form-group col-sm-6">
+            {{ form_errors(form.billet.dateReservation) }}
+            {{ form_widget(form.billet.dateReservation, {'attr': {'placeholder':'Date de Visite'}}) }}
+
+        </div>
+        <div class="form-group col-sm-6">
+            {{ form_label(form.billet.produits, "Type du Billet", {'label_attr': { 'class': 'col-sm-6 control-label' }}) }}
+            {{ form_errors(form.billet.produits) }}
+            {{ form_widget(form.billet.produits, {'attr': {'class': 'custom-select mb-2 mr-sm-2 mb-sm-0'}}) }}
+
+        </div>
+    </br><br>
+        <div class="d-flex flex-row-reverse col-sm-12">
+            <div class="p-2">
+                <input type="number" id="num" placeholder="Nombre de visiteur" name="nombreVisiteur"/>
+            </div>
+
+        </div>
+    </div>
+    <span id="resultat"></span><br />
+    <div id="visiteur" class="form-row">
+        <div class="form-group col-md-6">
+            {{ form_errors(form.nom) }}
+            {{ form_widget(form.nom, {'attr': {'placeholder':'Entrer Votre Nom'}}) }}
+        </div>
+
+        <div class="form-group col-md-6">
+            {{ form_errors(form.prenom) }}
+            {{ form_widget(form.prenom, {'attr': {'placeholder':'Entrer Votre Prenom'}}) }}
+        </div>
+
+        <div class="form-group col-md-6 form-inline">
+            {{ form_label(form.dateNaissance, "Date de Naissance", {'label_attr': { 'class': 'col-sm-6 control-label' }}) }}
+            {{ form_errors(form.dateNaissance) }}
+            {{ form_widget(form.dateNaissance) }}
+        </div>
+
+        <div class="form-group col-md-6 form-inline">
+            {{ form_label(form.pays, "Votre Pays", {'label_attr': { 'class': 'col-sm-4 control-label' }}) }}
+            {{ form_errors(form.pays) }}
+            {{ form_widget(form.pays, {'attr': {'class': 'custom-select mb-2 mr-sm-2 mb-sm-0'}}) }}
+        </div>
+
+    </div>
+
+    {# Fermeture de la balise <form> du formulaire HTML #}
+    {{ form_end(form) }}
+    </div>
+
+
+

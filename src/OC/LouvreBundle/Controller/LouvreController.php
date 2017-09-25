@@ -3,6 +3,10 @@
 namespace OC\LouvreBundle\Controller;
 
 use OC\LouvreBundle\Entity\Clients;
+use OC\LouvreBundle\Entity\Billets;
+use OC\LouvreBundle\Entity\Paiements;
+use OC\LouvreBundle\Form\ClientsType;
+use OC\LouvreBundle\Form\BilletsType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,10 +19,17 @@ class LouvreController extends Controller
         return new Response($contenue);
     }
 
-    public function achatBilletsAction() {
+    public function achatBilletsAction(Request $request) {
+        $billet = new Billets();
+        $client = new Clients();
+        //$form = $this->get('form.factory')->create(BilletsType::class, $billet);
+        $form = $this->get('form.factory')->create(ClientsType::class, $client);
+
+
         // Page du Formulaire d'achat des billets
-        $pageAchat = $this->get('templating')->render('OCLouvreBundle:Louvre:achatBillet.html.twig');
-        return new Response($pageAchat);
+        return $this->render('OCLouvreBundle:Louvre:achatBillet.html.twig', array(
+           'form' => $form->createView(),
+        ));
     }
 
     public function detailleBilletsAction($id) {

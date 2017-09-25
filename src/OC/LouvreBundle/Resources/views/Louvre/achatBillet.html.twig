@@ -2,6 +2,7 @@
 
 {% extends "OCLouvreBundle::layout.html.twig" %}
 
+
 {% block body %}
 
     <div style="margin-top: 100px; background: #42A5F5; color: white">
@@ -29,8 +30,32 @@
                 </div>
             </div>
             <div class="container" style="text-align: center; color: #ffffff; border: 1px solid white ">
-                <h3>Ici sera afficher le formulaire d'achat des billets</h3>
+                <h3>Formulaire d'achat des billets</h3>
+                {#{ dump(form) }#}
+                <div class="row">
+                    <div class="col-sm-8" style="background-color: #42A5F5">
+                        {{ include("OCLouvreBundle:Louvre:form.html.twig") }}
+                    </div>
+                    <div class="col-sm-4" style="background-color: #0D47A1"></div>
+
+                </div>
+
+
+
             </div>
         </div>
     </header>
+
+
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript">
+        $(function() {
+            $('#num').on('blur click keydown', function() {
+                var number = document.getElementById("num").value;;
+                $('#resultat').text('Vous venez de sélectionner "' + number +'".');
+            });
+        });
+    </script>
 {% endblock %}
