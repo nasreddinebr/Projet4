@@ -4,9 +4,11 @@ namespace OC\LouvreBundle\Controller;
 
 use OC\LouvreBundle\Entity\Clients;
 use OC\LouvreBundle\Entity\Billets;
+use OC\LouvreBundle\Entity\FormCollection;
 use OC\LouvreBundle\Entity\Paiements;
 use OC\LouvreBundle\Form\ClientsType;
 use OC\LouvreBundle\Form\BilletsType;
+use OC\LouvreBundle\Form\FormCollectionType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,8 +24,9 @@ class LouvreController extends Controller
     public function achatBilletsAction(Request $request) {
         $billet = new Billets();
         $client = new Clients();
+        $formCollection = new FormCollection();
         //$form = $this->get('form.factory')->create(BilletsType::class, $billet);
-        $form = $this->get('form.factory')->create(ClientsType::class, $client);
+        $form = $this->get('form.factory')->create(FormCollectionType::class, $formCollection);
 
 
         // Page du Formulaire d'achat des billets
