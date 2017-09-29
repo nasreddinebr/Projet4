@@ -16,6 +16,6 @@ oc_louvre_detaille:
         id: \d+
 
 oc_louvre_enregistrer:
-    path:     /billetterie/enregistrer
+    path:     /billetterie/enregistrement
     defaults:
         _controller: OCLouvreBundle:Louvre:enregistrerBillets

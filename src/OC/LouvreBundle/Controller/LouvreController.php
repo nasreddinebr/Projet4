@@ -2,6 +2,7 @@
 
 namespace OC\LouvreBundle\Controller;
 
+use OC\LouvreBundle\Api\Stripe;
 use OC\LouvreBundle\Entity\Clients;
 use OC\LouvreBundle\Entity\Billets;
 use OC\LouvreBundle\Entity\FormCollection;
@@ -22,11 +23,49 @@ class LouvreController extends Controller
     }
 
     public function achatBilletsAction(Request $request) {
-        $billet = new Billets();
-        $client = new Clients();
+
         $formCollection = new FormCollection();
-        //$form = $this->get('form.factory')->create(BilletsType::class, $billet);
         $form = $this->get('form.factory')->create(FormCollectionType::class, $formCollection);
+
+        if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
+
+            $token = $_POST['stripeToken'];
+            $email = $_POST['email'];
+            $name = $_POST['name'];
+
+            if (filter_var($email, FILTER_VALIDATE_EMAIL) && !empty($name) && !empty($token)) {
+
+                // Ici on va crée un customer (client) on utilisent la bibliothech curl de php
+                $stripe = new Stripe('sk_test_mMtQzCgpyghkqStGTvCbJeNj');
+
+                //  Crée le client
+                $customer = $stripe->api('customers', [
+                    'source' 		=> $token,
+                    'description' 	=> $name,
+                    'email'			=> $email
+                ]);
+
+                // Effectuer le payement
+                $charge = $stripe->api('charges', array(
+                    "amount" => 1000,
+                    "currency" => "eur",
+                    "customer" => $customer->id,
+                ));
+
+
+                var_dump($charge);
+                die('Felicitation votre paiement à bien été effectuer');
+
+            }
+
+
+
+
+            //$request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
+            //return $this->redirectToRoute('oc_louvre_detaille', array('id' => 1));
+
+
+        }
 
 
         // Page du Formulaire d'achat des billets
@@ -44,39 +83,6 @@ class LouvreController extends Controller
          * enfin en envoi les information par mail au client.
          */
         return new Response("Votre enregistrement à bien été effectuer" . $id);
-    }
-
-    public function enregistrerBilletsAction(Request $request) {
-        /**
-         * Ici en recupére tous les données depuis le
-         * formulaire d'achat des billets, et puis les enregistrer
-         * sur la base de donnée.
-         */
-        //création de l'entitee Clients
-        $client = new Clients();
-        $client->setNom('Berrached');
-        $client->setPrenom('Nasreddine');
-        $client->setDateNaissance(new \DateTime('1980-08-17'));
-        $client->setPays('Maroc');
-        $client->setIdBillet(1);
-        $client->setIdTarif(1);
-
-        //onrecupére le gestionnaire de donnée
-        $em = $this->getDoctrine()->getManager();
-
-        // On persiste l'objet
-        $em->persist($client);
-
-        // On demande la mise a jour
-        $em->flush();
-
-        if ($request->isMethod('POST')) {
-            $request->getSession()->getFlashBag()->add('notice', 'Client enregistrer');
-
-            return $this->redirectToRoute('oc_louvre_detaille', array('id' => 1));
-
-        }
-        return $this->render('OCLouvreBundle:Louvre:achatBillet.html.twig');
     }
 
 }
