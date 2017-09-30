@@ -170,7 +170,7 @@ class Clients
      *
      * @return Clients
      */
-    public function setBillet(\OC\LouvreBundle\Entity\Billets $billet)
+    public function setBillet(Billets $billet)
     {
         $this->billet = $billet;
 
@@ -185,5 +185,12 @@ class Clients
     public function getBillet()
     {
         return $this->billet;
+    }
+
+    public function addFormCollection(FormCollection $formCollection)
+    {
+        /*if (!$this->tasks->contains($formCollection)) {
+            $this->tasks->add($formCollection);
+        }*/
     }
 }

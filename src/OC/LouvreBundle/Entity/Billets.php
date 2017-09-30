@@ -33,7 +33,7 @@ class Billets
      *
      * @ORM\Column(name="date_resrvation", type="date")
      */
-    private $dateResrvation;
+    public $dateReservation;
 
     /**
      * @var string
@@ -47,6 +47,13 @@ class Billets
      * @ORM\JoinColumn(nullable=false)
      */
     private $paiment;
+
+    /**
+     * @ORM\OneToOne(targetEntity="OC\LouvreBundle\Entity\Produits", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $produits;
+
 
 
     /**
@@ -90,9 +97,9 @@ class Billets
      *
      * @return Billets
      */
-    public function setDateResrvation($dateResrvation)
+    public function setDateReservation($dateReservation)
     {
-        $this->dateResrvation = $dateResrvation;
+        $this->dateReservation = $dateReservation;
 
         return $this;
     }
@@ -102,9 +109,9 @@ class Billets
      *
      * @return \DateTime
      */
-    public function getDateResrvation()
+    public function getDateReservation()
     {
-        return $this->dateResrvation;
+        return $this->dateReservation;
     }
 
     /**
@@ -154,5 +161,29 @@ class Billets
     public function getPaiment()
     {
         return $this->paiment;
+    }
+
+    /**
+     * Set produit
+     *
+     * @param \OC\LouvreBundle\Entity\Produits $produits
+     *
+     * @return Produits
+     */
+    public function setProduits(Produits $produit)
+    {
+        $this->produits = $produit;
+
+        return $this;
+    }
+
+    /**
+     * Get produit
+     *
+     * @return \OC\LouvreBundle\Entity\Produits
+     */
+    public function getProduits()
+    {
+        return $this->produits;
     }
 }

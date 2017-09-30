@@ -22,13 +22,6 @@ class Paiements
     private $id;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="date_paiement", type="datetime")
-     */
-    private $datePaiement;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="titulaire_carte", type="string", length=255)
@@ -72,30 +65,6 @@ class Paiements
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set datePaiement
-     *
-     * @param \DateTime $datePaiement
-     *
-     * @return Paiements
-     */
-    public function setDatePaiement($datePaiement)
-    {
-        $this->datePaiement = $datePaiement;
-
-        return $this;
-    }
-
-    /**
-     * Get datePaiement
-     *
-     * @return \DateTime
-     */
-    public function getDatePaiement()
-    {
-        return $this->datePaiement;
     }
 
     /**
