@@ -1,7 +1,4 @@
-
-
 {% extends "OCLouvreBundle::layout.html.twig" %}
-
 
 {% block body %}
 
@@ -31,12 +28,12 @@
             </div>
             <div class="container" style="text-align: center; color: #ffffff; border: 1px solid white ">
                 <h3>Formulaire d'achat des billets</h3>
-                {#{ dump(form) }#}
+                {{ dump(form) }}
                 <div class="row">
                     <div class="col-sm-8" style="background-color: #42A5F5">
                         {{ include("OCLouvreBundle:Louvre:form.html.twig") }}
                     </div>
-                    <div class="col-sm-4" style="background-color: #0D47A1"></div>
+                    <div class="col-sm-4" style="background-color: #4cae4c">testx</div>
 
                 </div>
 
@@ -48,14 +45,25 @@
 
 
 {% endblock %}
-
-{% block script %}
+{% block javascript %}
     <script type="text/javascript">
-        $(function() {
-            $('#num').on('blur click keydown', function() {
-                var number = document.getElementById("num").value;;
-                $('#resultat').text('Vous venez de sélectionner "' + number +'".');
-            });
-        });
+        Stripe.setPublishableKey('pk_test_y92oqjpy2wytEQMZSoEnUVYR')
+        var $form = $('#payment-form')
+        $form.submit(function (e) {
+            e.preventDefault();
+            //$form.find('.button').attr('disabled', true)
+            $form.find('button').prop('disabled', true);
+            // Se connecter a l'API Stripe pour générer un token a partire des information
+            Stripe.card.createToken($form, function(status, response){
+                if(response.error) {
+                    $form.find('.message').remove();
+                    $form.prepend('<div class="alert alert-danger" role="alert"><p>' + response.error.message + '</p></div>');
+                } else {
+                    var token = response.id;
+                    $form.append($('<input type="hidden" name="stripeToken">').val(token))
+                    $form.get(0).submit()
+                }
+            })
+        })
     </script>
 {% endblock %}
