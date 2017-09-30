@@ -22,6 +22,13 @@ class Tarifs
     private $id;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="localisateur_tarif", type="integer", unique=true)
+     */
+    private $localisateurTarif;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="nom_tarif", type="string", length=255)
@@ -62,4 +69,3 @@ class Tarifs
         return $this->nomTarif;
     }
 }
-

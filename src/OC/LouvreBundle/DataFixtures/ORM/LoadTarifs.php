@@ -17,16 +17,17 @@ class LoadTarifs implements FixtureInterface
     {
         // liste des tarifs
         $tarifs = array(
-            'normal',
-            'enfant',
-            'senior',
-            'reduit'
+            'normal'    => 13,
+            'enfant'    => 12,
+            'senior'    => 60,
+            'reduit'    => 5
         );
 
-        foreach ($tarifs as $tarif) {
+        foreach ($tarifs as $key => $value) {
             // On crée le produit
             $tarifBillet = new Tarifs();
-            $tarifBillet->setNomTarif($tarif);
+            $tarifBillet->setNomTarif($key);
+            $tarifBillet->setLocalisateurTarif($value);
 
             // On la persiste
             $manager->persist($tarifBillet);

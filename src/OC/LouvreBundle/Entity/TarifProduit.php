@@ -22,13 +22,6 @@ class TarifProduit
     private $id;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="localisateur_prix", type="integer", unique=true)
-     */
-    private $localisateurPrix;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="prixUnitaire", type="decimal", precision=10, scale=2)
@@ -56,30 +49,6 @@ class TarifProduit
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set localisateurPrix
-     *
-     * @param integer $localisateurPrix
-     *
-     * @return TarifProduit
-     */
-    public function setLocalisateurPrix($localisateurPrix)
-    {
-        $this->localisateurPrix = $localisateurPrix;
-
-        return $this;
-    }
-
-    /**
-     * Get localisateurPrix
-     *
-     * @return integer
-     */
-    public function getLocalisateurPrix()
-    {
-        return $this->localisateurPrix;
     }
 
     /**
