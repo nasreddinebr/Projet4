@@ -2,6 +2,7 @@
 namespace OC\LouvreBundle\Controller;
 use OC\LouvreBundle\Entity\FormCollection;
 use OC\LouvreBundle\Entity\Paiements;
+use OC\LouvreBundle\Entity\Billets;
 use OC\LouvreBundle\Form\FormCollectionType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -25,10 +26,16 @@ class LouvreController extends Controller
              * */
             $dateReservation = $_POST['form_collection']['billets']['dateReservation'];
             $clients = $_POST['form_collection']['clients'];
+
             // Détéminer les tarifs
             if (!empty($clients) && !empty($dateReservation)){
+                $serviceDateNasisance = $this->container->get('oc_louvre.datesNassances');
+                $datesNaissances = $serviceDateNasisance->datesNaissances($clients);
+
                 $serviceTarifs = $this->container->get('oc_louvre.tarifs');
-                $tarifs = $serviceTarifs->isTarif($clients, $dateReservation);
+                $tarifs = $serviceTarifs->isTarif($datesNaissances, $dateReservation);
+
+                var_dump($tarifs);
             }else {
                 throw new Exception("vous devez remplire les champs date de reservation et date de naissance");
             }
@@ -36,9 +43,9 @@ class LouvreController extends Controller
             $token = $_POST['stripeToken'];
             $email = $_POST['email'];
             $name = $_POST['name'];
-            if (filter_var($email, FILTER_VALIDATE_EMAIL) && !empty($name) && !empty($token)) {
+            /*if (filter_var($email, FILTER_VALIDATE_EMAIL) && !empty($name) && !empty($token)) {
                 // Ici on va crée un customer (client) on utilisent la bibliothech curl de php
-                /*$stripe = new Stripe('sk_test_mMtQzCgpyghkqStGTvCbJeNj');
+                $stripe = new Stripe('sk_test_mMtQzCgpyghkqStGTvCbJeNj');
                 //  Crée le client
                 $customer = $stripe->api('customers', [
                     'source' 		=> $token,
@@ -57,10 +64,14 @@ class LouvreController extends Controller
                 $paiement->setEmail($customer->email);
                 $paiement->setStripeClientId($charge->customer);
                 $paiement->setStripeChargeId($charge->id);
-                $paiement->setSommePayee((float) $sommePaye);*/
+                $paiement->setSommePayee((float) $charge->amount / 100);
 
-                $billets = $formCollection->getBillets();
-            }
+                $billets =  $formCollection->getBillets();
+                $billets->setnumeroBillet('25/NOV-1000');
+                $billets->setpaiement($paiement);
+                $billets->setprixTotal($total);
+                var_dump($formCollection->getBillets());
+            }*/
             //$request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
             //return $this->redirectToRoute('oc_louvre_detaille', array('id' => 1));
         }

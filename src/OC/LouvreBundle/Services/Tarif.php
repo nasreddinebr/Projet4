@@ -10,19 +10,11 @@ class Tarif
 {
     private $servicedatesNaissances;
 
-
     const NORMALE = 13;
     const ENFANT = 12;
     const SENIOR = 60;
 
-    public function __construct(DateNaissance $dateNaissance)
-    {
-        $this->servicedatesNaissances = $dateNaissance;
-    }
-
-    public function isTarif($clients, $dateVisite) {
-        // Rassemblement des date de naissance
-        $datesNaissances = $this->servicedatesNaissances->datesNaissances($clients);
+    public function isTarif($datesNaissances, $dateVisite) {
 
         // Calcule d'age du visiteur le jour de la visite
         $dateVisite = explode('-', $dateVisite);

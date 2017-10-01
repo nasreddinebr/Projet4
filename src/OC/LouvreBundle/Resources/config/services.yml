@@ -7,5 +7,3 @@ services:
 
     oc_louvre.tarifs:
         class: OC\LouvreBundle\Services\Tarif
-        arguments:
-            - "@oc_louvre.datesNassances"

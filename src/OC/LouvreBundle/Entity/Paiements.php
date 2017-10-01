@@ -186,5 +186,6 @@ class Paiements
     {
         return $this->sommePayee;
     }
+
 }
 

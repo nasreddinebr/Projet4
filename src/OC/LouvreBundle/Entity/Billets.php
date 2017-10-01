@@ -33,7 +33,7 @@ class Billets
      *
      * @ORM\Column(name="date_resrvation", type="date")
      */
-    public $dateReservation;
+    private $dateReservation;
 
     /**
      * @var string
@@ -46,7 +46,7 @@ class Billets
      * @ORM\OneToOne(targetEntity="OC\LouvreBundle\Entity\Paiements", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $paiment;
+    private $paiement;
 
     /**
      * @ORM\OneToOne(targetEntity="OC\LouvreBundle\Entity\Produits", cascade={"persist"})
