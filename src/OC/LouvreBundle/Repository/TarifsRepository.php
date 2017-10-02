@@ -13,14 +13,14 @@ use Doctrine\ORM\QueryBuilder;
 
 class TarifsRepository extends EntityRepository
 {
-    public function findTarifs($tarifs) {
-        $repository =  $this
-            ->getDoctrine()
-            ->getManager()
-            ->getRepository('OCLouvreBundle:Tarifs');
+    public function findListTarifs($tarif) {
+        $qb = $this->createQueryBuilder('t');
+        $qb
+            ->where('t.localisateurTarif=:localisateur_tarif')
+            ->setParameter('localisateur_tarif', $tarif);
 
-        $listTarifs = $repository->findBy($tarifs);
-
-        return $listTarifs;
+        return $qb
+            ->getQuery()
+            ->getResult();
     }
 }

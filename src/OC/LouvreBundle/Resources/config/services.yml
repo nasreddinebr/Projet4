@@ -7,3 +7,9 @@ services:
 
     oc_louvre.tarifs:
         class: OC\LouvreBundle\Services\Tarif
+
+    oc_louvre.importTarif:
+        class: OC\LouvreBundle\Services\ImportTarif
+        arguments:
+            - "@oc_louvre.tarifs"
+            - "@doctrine.orm.entity_manager"

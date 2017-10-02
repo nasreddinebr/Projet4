@@ -8,7 +8,6 @@ namespace OC\LouvreBundle\Services;
  */
 class Tarif
 {
-    private $servicedatesNaissances;
 
     const NORMALE = 13;
     const ENFANT = 12;
@@ -29,7 +28,7 @@ class Tarif
                 $localisateurTarif[] = self::ENFANT;
             }elseif ($age > 12 && $age < 60) {
                 $localisateurTarif[] = self::NORMALE;
-            }elseif ($age <= 60) {
+            }elseif ($age >= 60) {
                 $localisateurTarif[] = self::SENIOR;
             }
         }

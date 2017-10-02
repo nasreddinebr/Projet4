@@ -2,8 +2,10 @@
 namespace OC\LouvreBundle\Controller;
 use OC\LouvreBundle\Entity\FormCollection;
 use OC\LouvreBundle\Entity\Paiements;
-use OC\LouvreBundle\Entity\Billets;
+use OC\LouvreBundle\Api\PaimentStripe;
 use OC\LouvreBundle\Form\FormCollectionType;
+//use OC\LouvreBundle\Model\;
+use OC\LouvreBundle\Model\ImportTarif;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,55 +24,56 @@ class LouvreController extends Controller
             /*
              * on verifie si le visiteur dispose du tarif reduit ou non
              * puis on  rassembler les dates de naissance pour
-             * détérminer le prix pour chaque visiteur calculer le totale
+             * détérminer le prix pour chaque visiteur et calculer le totale
              * */
+            $billets =  $formCollection->getBillets();
+            $idProduit = $billets->getProduits()->getId();
             $dateReservation = $_POST['form_collection']['billets']['dateReservation'];
             $clients = $_POST['form_collection']['clients'];
 
             // Détéminer les tarifs
             if (!empty($clients) && !empty($dateReservation)){
+                // Appele au service oc_louvre.datesResrvation
+                // pour extraire les dates de naissance au format
+                // jour moi année dans une array
                 $serviceDateNasisance = $this->container->get('oc_louvre.datesNassances');
                 $datesNaissances = $serviceDateNasisance->datesNaissances($clients);
 
-                $serviceTarifs = $this->container->get('oc_louvre.tarifs');
-                $tarifs = $serviceTarifs->isTarif($datesNaissances, $dateReservation);
+                // Recupération des idTarif
+                $serviceImportTarif = $this->container->get('oc_louvre.importTarif');
+                $idTarifs = $serviceImportTarif->creeIdTarif($datesNaissances, $dateReservation);
 
-                var_dump($tarifs);
-            }else {
-                throw new Exception("vous devez remplire les champs date de reservation et date de naissance");
+                var_dump($idTarifs);
             }
-            $paiement = new Paiements();
+
+            // Recuperation des prix par visiteur
+            $listPrix = $this
+                ->getDoctrine()
+                ->getManager()
+                ->getRepository('OCLouvreBundle:TarifProduit')
+                ->findPrix($idTarifs, $idProduit);
+            $total = array_sum($listPrix);
+            var_dump($listPrix);
+            var_dump($total);
+
+            // Initialisation des variable pour effectuer le paiment
             $token = $_POST['stripeToken'];
             $email = $_POST['email'];
             $name = $_POST['name'];
+
             /*if (filter_var($email, FILTER_VALIDATE_EMAIL) && !empty($name) && !empty($token)) {
-                // Ici on va crée un customer (client) on utilisent la bibliothech curl de php
-                $stripe = new Stripe('sk_test_mMtQzCgpyghkqStGTvCbJeNj');
-                //  Crée le client
-                $customer = $stripe->api('customers', [
-                    'source' 		=> $token,
-                    'description' 	=> $name,
-                    'email'			=> $email
-                ]);
-                // Effectuer le payement
-                $charge = $stripe->api('charges', array(
-                    "amount" => 1000,
-                    "currency" => "eur",
-                    "customer" => $customer->id,
-                ));
-                $sommePaye = $charge->amount / 100;
-                // Construire l'objet $paiement
-                $paiement->setTitulaireCarte($customer->description);
-                $paiement->setEmail($customer->email);
-                $paiement->setStripeClientId($charge->customer);
-                $paiement->setStripeChargeId($charge->id);
-                $paiement->setSommePayee((float) $charge->amount / 100);
+                // Paiement et construction de l'instance $paiment
+                $paiementStripe = new PaimentStripe($token, $email, $name, $total);
+                $paiement = $paiementStripe->creePaiement();
+                var_dump($paiement);
 
                 $billets =  $formCollection->getBillets();
                 $billets->setnumeroBillet('25/NOV-1000');
                 $billets->setpaiement($paiement);
                 $billets->setprixTotal($total);
                 var_dump($formCollection->getBillets());
+            }else {
+                throw new Exception("Un ou plusieurs champs sont vides (Token, Email ou Name");
             }*/
             //$request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
             //return $this->redirectToRoute('oc_louvre_detaille', array('id' => 1));

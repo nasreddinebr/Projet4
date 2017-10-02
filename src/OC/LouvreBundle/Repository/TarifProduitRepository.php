@@ -12,7 +12,25 @@ use Doctrine\ORM\EntityRepository;
  */
 class TarifProduitRepository extends EntityRepository
 {
-    public function recuperePrix($tarifs, $produits) {
+    public function findPrix(array $idTarifs, $idProduits) {
+        foreach ($idTarifs as $key => $value){
+            /*$req = $this->_em->createQuery('SELECT tp.prixUnitaire FROM OCLouvreBundle:TarifProduit tp WHERE tp.tarif=:idTarif AND tp.produit=:idProduit');
+            $req
+                ->setParameter('idTarif', $value)
+                ->setParameter(tp.produit=:idProduit);
+            $result[] = $req->getResult();*/
+            $qb = $this->createQueryBuilder('tp');
+            $qb
+                ->where('tp.tarif=:idTarif')
+                    ->setParameter('idTarif', $value)
+                ->andWhere('tp.produit=:idProduit')
+                    ->setParameter('idProduit', $idProduits);
 
+            $result = $qb->getQuery()->getResult();
+            foreach ($result as $key => $value) {
+                $prixUnitaire[] = (float)$value->getPrixUnitaire();
+            }
+        }
+        return $prixUnitaire;
     }
 }
