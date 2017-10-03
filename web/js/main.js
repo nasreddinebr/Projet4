@@ -1,15 +1,23 @@
 $(function() {
     // DatePicker
-    $( ".datePicker" ).datepicker({
+    var daysToDisable = ['1-11', '25-12', '1-5']; // Les jour ferier à importer depuis la BD
+    $( "#form_collection_billets_dateReservation" ).datepicker({
         dateFormat: 'dd-mm-yy',
+        minDate: 0,
         beforeShowDay: function (date) {
-            if (date.getDay() == 2) { // La semaine commence à 0 = Dimanche
-                return [false, ''];
+            var day = date.getDay();
+            var month = date.getMonth();
+            var currentDate =date.getDate();
+            if (day == 2) { // desactivation de tou les mardi
+                return [false];
+            }else if ($.inArray(currentDate + '-' + (month + 1), daysToDisable) != -1){
+                // Desactivation des jour ferier
+                return [false];
             } else {
-                return [true, ''];
+                return [true];
             }
-        },
-        minDate: 0
+        }
+
     });
 
     // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
