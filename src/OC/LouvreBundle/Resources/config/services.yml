@@ -13,3 +13,8 @@ services:
         arguments:
             - "@oc_louvre.tarifs"
             - "@doctrine.orm.entity_manager"
+
+    oc_louvre.generateurNumeroBillet:
+        class: OC\LouvreBundle\Services\GenerateurNumeroBillet
+        arguments:
+            - "@doctrine.orm.entity_manager"

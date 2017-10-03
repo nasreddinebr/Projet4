@@ -1,6 +1,8 @@
 <?php
 
 namespace OC\LouvreBundle\Repository;
+use Doctrine\DBAL\Driver\PDOException;
+use Symfony\Component\Config\Definition\Exception\Exception;
 
 /**
  * BilletsRepository
@@ -10,4 +12,20 @@ namespace OC\LouvreBundle\Repository;
  */
 class BilletsRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function recupDernierBilletAjouter() {
+
+        //$query = $this->_em->createQuery('SELECT t FROM OCLouvreBundle:Billets t ORDER BY t.id DESC ');
+        //$query = $this->_em->createQuery('SELECT t FROM OCLouvreBundle:Billets t');
+
+
+        $query = $this->_em->createQuery('SELECT t FROM OCLouvreBundle:Billets t ORDER BY t.id DESC ');
+        $dernierBillets = $query->setMaxResults(1)->getOneOrNullResult();
+
+
+        //$dernierBillets = $query->getOneOrNullResult();
+
+
+
+
+    }
 }

@@ -1,11 +1,10 @@
 <?php
 namespace OC\LouvreBundle\Controller;
+use Doctrine\DBAL\Driver\PDOException;
 use OC\LouvreBundle\Entity\FormCollection;
 use OC\LouvreBundle\Entity\Paiements;
 use OC\LouvreBundle\Api\PaimentStripe;
 use OC\LouvreBundle\Form\FormCollectionType;
-//use OC\LouvreBundle\Model\;
-use OC\LouvreBundle\Model\ImportTarif;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Response;
@@ -42,9 +41,19 @@ class LouvreController extends Controller
                 // Recupération des idTarif
                 $serviceImportTarif = $this->container->get('oc_louvre.importTarif');
                 $idTarifs = $serviceImportTarif->creeIdTarif($datesNaissances, $dateReservation);
-
-                var_dump($idTarifs);
             }
+
+
+
+            $derinerBillet = $this
+                ->getDoctrine()
+                ->getManager()
+                ->getRepository('OCLouvreBundle:Billets')
+                ->recupDernierBilletAjouter();
+
+
+            var_dump($derinerBillet);
+            die();
 
             // Recuperation des prix par visiteur
             $listPrix = $this
