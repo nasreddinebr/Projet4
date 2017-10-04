@@ -98,4 +98,19 @@ class LouvreController extends Controller
          */
         return new Response("Votre enregistrement à bien été effectuer" . $id);
     }
+
+    public function jourFerierAction() {
+
+        $repository = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('OCLouvreBundle:JoursFermeture');
+        $joursFermeture = $repository->findAll();
+
+        foreach ($joursFermeture as $jourFermeture) {
+            $dateADescativer[] = $jourFermeture->getJoursFermeture();
+        }
+        var_dump($dateADescativer);
+        return new Response(array($dateADescativer));
+    }
 }

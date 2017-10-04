@@ -30,12 +30,12 @@ $(function() {
     $('#add_client').on('click', function(e) {
         var $number = document.getElementById("num").value;
         if (index == 0) {
-            // On ajoute les champs à chaque clic sur le lien de valiodation.
+            // On ajoute les champs à chaque clic sur le lien de validation.
             addClient($container, $number);
             ajoutPaiementForm($container);
         } else {
             for (var i = 0; i < index; i++) {
-                // S'il existe déjà des catégories, on ajoute un lien de suppression pour chacune d'entre elles
+                // S'il existe déjà des champs, on ajoute un lien de suppression pour chacune d'entre elles
                 $container.children('div').each(function() {
                     addDeleteLink($(this));
                 });
