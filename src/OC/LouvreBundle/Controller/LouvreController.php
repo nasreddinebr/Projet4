@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+
 class LouvreController extends Controller
 {
     public function indexAction(){
@@ -43,16 +44,11 @@ class LouvreController extends Controller
                 $idTarifs = $serviceImportTarif->creeIdTarif($datesNaissances, $dateReservation);
             }
 
+            // Génération du numéro du billet
+            $serviceGenerateurNumBillet= $this->container->get('oc_louvre.generateurNumeroBillet');
+            $numeroBillet = $serviceGenerateurNumBillet->genereNumBillet();
 
-
-            $derinerBillet = $this
-                ->getDoctrine()
-                ->getManager()
-                ->getRepository('OCLouvreBundle:Billets')
-                ->recupDernierBilletAjouter();
-
-
-            var_dump($derinerBillet);
+            var_dump($numeroBillet);
             die();
 
             // Recuperation des prix par visiteur

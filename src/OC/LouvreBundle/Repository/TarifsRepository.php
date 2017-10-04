@@ -23,16 +23,4 @@ class TarifsRepository extends EntityRepository
             ->getQuery()
             ->getResult();
     }
-
-    public function recupDernierBilletAjouter() {
-        /*$req = $this->_em->createQuery('SELECT t FROM OCLouvreBundle:Tarifs t WHERE t.id = MAX(t.id)');
-        $result = $req->getResult();
-        return $result;*/
-
-        $query = $this->_em->createQuery('SELECT t FROM OCLouvreBundle:Tarifs t ORDER BY t.id DESC ');
-
-        $dernierBillets = $query->setMaxResults(1)->getOneOrNullResult();
-
-        return $dernierBillets;
-    }
 }
