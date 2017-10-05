@@ -57,7 +57,7 @@ class FormCollection
         return $this->id;
     }
     /**
-     * @return mixed
+     * @return Clients
      */
     public function getClients()
     {
@@ -65,7 +65,7 @@ class FormCollection
     }
 
     /**
-     * @param mixed $clients
+     * @param Clients $clients
      */
     public function setClients(Clients $client)
     {
@@ -73,7 +73,7 @@ class FormCollection
     }
 
     /**
-     * @return mixed
+     * @return Billets
      */
     public function getBillets()
     {
@@ -81,7 +81,7 @@ class FormCollection
     }
 
     /**
-     * @param mixed $billet
+     * @param Billets $billet
      */
     public function setBillets(Billets $billet)
     {

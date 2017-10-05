@@ -27,7 +27,7 @@ class LouvreController extends Controller
              * détérminer le prix pour chaque visiteur et calculer le totale
              * */
             $billets =  $formCollection->getBillets();
-            $idProduit = $billets->getProduits()->getId();
+            $idProduit = $billets->getProduits();
             $dateReservation = $_POST['form_collection']['billets']['dateReservation'];
             $clients = $_POST['form_collection']['clients'];
 
@@ -41,15 +41,15 @@ class LouvreController extends Controller
 
                 // Recupération des idTarif
                 $serviceImportTarif = $this->container->get('oc_louvre.importTarif');
-                $idTarifs = $serviceImportTarif->creeIdTarif($datesNaissances, $dateReservation);
+                $idTarifs = $serviceImportTarif->getIdTarif($datesNaissances, $dateReservation);
             }
 
             // Génération du numéro du billet
             $serviceGenerateurNumBillet= $this->container->get('oc_louvre.generateurNumeroBillet');
             $numeroBillet = $serviceGenerateurNumBillet->genereNumBillet();
 
-            var_dump($numeroBillet);
-            die();
+            //var_dump($numeroBillet);
+            //die();
 
             // Recuperation des prix par visiteur
             $listPrix = $this

@@ -1,6 +1,7 @@
 <?php
 
 namespace OC\LouvreBundle\Services;
+use Doctrine\ORM\EntityManager;
 
 /**
  * Class GenereNumeroBillet
@@ -9,16 +10,19 @@ namespace OC\LouvreBundle\Services;
  */
 class GenerateurNumeroBillet
 {
-    protected $getDoctrine;
+    /**
+     * @var EntityManager
+     */
+    protected $doctrine;
 
-    public function __construct($getDoctrine)
+    public function __construct(EntityManager $doctrine)
     {
-        $this->getDoctrine = $getDoctrine;
+        $this->doctrine = $doctrine;
     }
 
     public function genereNumBillet() {
         $dernierBillet = $this
-            ->getDoctrine
+            ->doctrine
             ->getRepository('OCLouvreBundle:Billets')
             ->recupDernierBilletAjouter();
 

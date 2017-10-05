@@ -20,7 +20,7 @@ class ImportTarif
         $this->getDoctrine = $getDoctrine;
     }
 
-    public function creeIdTarif($datesNaissances, $dateReservation) {
+    public function getIdTarif($datesNaissances, $dateReservation) {
 
         // On recupere les localistaeurs des tarif
         $tarifs = $this->tarif->isTarif($datesNaissances, $dateReservation);

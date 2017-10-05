@@ -3,6 +3,8 @@ namespace OC\LouvreBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use OC\LouvreBundle\Entity\TarifProduit;
+use OC\LouvreBundle\Entity\Produits;
+use OC\LouvreBundle\Entity\Tarifs;
 /**
  * Class TarifProduit
  *
@@ -12,6 +14,7 @@ class LoadTarifProduit implements FixtureInterface
 {
     public function load(ObjectManager $manager)
     {
+        
         $tarifsProduit = array(
             '1' => array(
                 '1' => 16.00,
@@ -30,8 +33,10 @@ class LoadTarifProduit implements FixtureInterface
             // On crée la list des traifs produits
             foreach ($values as $key => $value) {
                 $tarifProduit = new TarifProduit();
-                $tarifProduit->setProduit($index);
-                $tarifProduit->setTarif($key);
+                $tarifs = new Tarifs;
+                $produits = new Produits;
+                $tarifProduit->setProduit($produits->getId());
+                $tarifProduit->setTarif($tarifs->getId());
                 $tarifProduit->setPrixUnitaire($value);
                 // On persiste
                 $manager->persist($tarifProduit);

@@ -15,14 +15,16 @@ class BilletsRepository extends \Doctrine\ORM\EntityRepository
     public function recupDernierBilletAjouter() {
 
         // Verification sil existe des Billets
-        $query = $this->_em->createQuery('SELECT 1 FROM OCLouvreBundle:Billets');
+        /*$query = $this->_em->createQuery('SELECT 1 FROM OCLouvreBundle:Billets');
         $dernierBillets = $query->execute();
 
         // Si il existe des billets en recupére le dernier et en le renvoi
-        if (!empty($dernierBillets)){
-            $query = $this->_em->createQuery('SELECT t FROM OCLouvreBundle:Billets t ORDER BY t.id DESC ');
-            $dernierBillets = $query->setMaxResults(1)->getOneOrNullResult();
-        }
+        if (!empty($dernierBillets)){*/
+            //$query = $this->_em->createQuery('SELECT b FROM OCLouvreBundle:Billets b ORDER BY b.id DESC ');
+            $query = $this->_em->createQuery('SELECT MAX(t.id) FROM OCLouvreBundle:Billets t');
+            //$dernierBillets = $query->setMaxResults(1)->getOneOrNullResult();
+            $dernierBillets = $query->getOneOrNullResult();
+        //}
         return $dernierBillets;
 
     }
