@@ -168,7 +168,7 @@ class Clients
      *
      * @param \OC\LouvreBundle\Entity\Billets $billet
      *
-     * @return Clients
+     * @return Billets
      */
     public function setBillet(Billets $billet)
     {
@@ -187,10 +187,5 @@ class Clients
         return $this->billet;
     }
 
-    public function addFormCollection(FormCollection $formCollection)
-    {
-        /*if (!$this->tasks->contains($formCollection)) {
-            $this->tasks->add($formCollection);
-        }*/
-    }
+
 }

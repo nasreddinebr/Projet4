@@ -52,7 +52,7 @@ class Billets
      * @ORM\OneToOne(targetEntity="OC\LouvreBundle\Entity\Produits", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $produits;
+    private $produit;
 
 
 
@@ -144,11 +144,11 @@ class Billets
      *
      * @param \OC\LouvreBundle\Entity\Paiements $paiment
      *
-     * @return Billets
+     * @return Paiements
      */
-    public function setPaiment(\OC\LouvreBundle\Entity\Paiements $paiment)
+    public function setPaiement(\OC\LouvreBundle\Entity\Paiements $paiement)
     {
-        $this->paiment = $paiment;
+        $this->paiement = $paiement;
 
         return $this;
     }
@@ -158,9 +158,9 @@ class Billets
      *
      * @return \OC\LouvreBundle\Entity\Paiements
      */
-    public function getPaiment()
+    public function getPaiement()
     {
-        return $this->paiment;
+        return $this->paiement;
     }
 
     /**
@@ -170,9 +170,9 @@ class Billets
      *
      * @return Produits
      */
-    public function setProduits(Produits $produit)
+    public function setProduit(Produits $produit)
     {
-        $this->produits = $produit;
+        $this->produit = $produit;
 
         return $this;
     }
@@ -182,8 +182,8 @@ class Billets
      *
      * @return \OC\LouvreBundle\Entity\Produits
      */
-    public function getProduits()
+    public function getProduit()
     {
-        return $this->produits;
+        return $this->produit;
     }
 }

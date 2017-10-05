@@ -38,26 +38,48 @@ class FormCollection
         //$this->billets = new ArrayCollection();
     }
 
-    public function addClients(Clients $client) {
-        $client->addFormCollection($this);
-        $this->clients->add($client);
-    }
-
-    public function addBillets(Billets $billet) {
-        $billet->addFormCollection($this);
-        $this->billets->add($billet);
-    }
-
 
     /**
-     * @return int
+     * Get id
+     *
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
     }
+
     /**
-     * @return Clients
+     * Add client
+     *
+     * @param \OC\LouvreBundle\Entity\Clients $client
+     *
+     * @return FormCollection
+     */
+    public function addClient(\OC\LouvreBundle\Entity\Clients $client)
+    {
+        $this->clients[] = $client;
+
+
+        return $this;
+    }
+
+    /**
+     * Remove client
+     *
+     * @param \OC\LouvreBundle\Entity\Clients $client
+     */
+    public function removeClient(\OC\LouvreBundle\Entity\Clients $client)
+    {
+        $this->clients->removeElement($client);
+    }
+
+
+    /**
+     * Get clients
+     *
+     *
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getClients()
     {
@@ -65,27 +87,26 @@ class FormCollection
     }
 
     /**
-     * @param Clients $clients
+     * Set billets
+     *
+     * @param \OC\LouvreBundle\Entity\Billets $billets
+     *
+     * @return FormCollection
      */
-    public function setClients(Clients $client)
+    public function setBillets(\OC\LouvreBundle\Entity\Billets $billets = null)
     {
-        $this->clients = $client;
+        $this->billets = $billets;
+
+        return $this;
     }
 
     /**
-     * @return Billets
+     * Get billets
+     *
+     * @return \OC\LouvreBundle\Entity\Billets
      */
     public function getBillets()
     {
         return $this->billets;
     }
-
-    /**
-     * @param Billets $billet
-     */
-    public function setBillets(Billets $billet)
-    {
-        $this->billets = $billet;
-    }
-
 }

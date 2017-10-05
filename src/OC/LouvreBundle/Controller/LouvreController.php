@@ -27,7 +27,7 @@ class LouvreController extends Controller
              * détérminer le prix pour chaque visiteur et calculer le totale
              * */
             $billets =  $formCollection->getBillets();
-            $idProduit = $billets->getProduits();
+            $idProduit = $billets->getProduit();
             $dateReservation = $_POST['form_collection']['billets']['dateReservation'];
             $clients = $_POST['form_collection']['clients'];
 
@@ -48,8 +48,7 @@ class LouvreController extends Controller
             $serviceGenerateurNumBillet= $this->container->get('oc_louvre.generateurNumeroBillet');
             $numeroBillet = $serviceGenerateurNumBillet->genereNumBillet();
 
-            //var_dump($numeroBillet);
-            //die();
+            var_dump($numeroBillet);
 
             // Recuperation des prix par visiteur
             $listPrix = $this
@@ -58,8 +57,8 @@ class LouvreController extends Controller
                 ->getRepository('OCLouvreBundle:TarifProduit')
                 ->findPrix($idTarifs, $idProduit);
             $total = array_sum($listPrix);
-            var_dump($listPrix);
-            var_dump($total);
+            //var_dump($listPrix);
+            //var_dump($total);
 
             // Initialisation des variable pour effectuer le paiment
             $token = $_POST['stripeToken'];
@@ -72,14 +71,25 @@ class LouvreController extends Controller
                 $paiement = $paiementStripe->creePaiement();
                 var_dump($paiement);
 
-                $billets =  $formCollection->getBillets();
-                $billets->setnumeroBillet('25/NOV-1000');
-                $billets->setpaiement($paiement);
+                //$billets =  $formCollection->getBillets();
+                $billets->setnumeroBillet($numeroBillet);
+                $billets->setPaiement($paiement);
                 $billets->setprixTotal($total);
-                var_dump($formCollection->getBillets());
+                $client = $formCollection->getClients();
+                foreach ($formCollection->getClients() as $key => $value) {
+                    $formCollection->getClients()[$key]->setbillet($billets);
+                }
+
+                var_dump($formCollection->getClients());
+
+                //var_dump($formCollection->getBillets());
+                //var_dump($formCollection->getClients());
             }else {
                 throw new Exception("Un ou plusieurs champs sont vides (Token, Email ou Name");
-            }*/
+            }
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($formCollection);
+            $em->flush();*/
             //$request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
             //return $this->redirectToRoute('oc_louvre_detaille', array('id' => 1));
         }

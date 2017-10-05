@@ -33,7 +33,7 @@ class Billets
      *
      * @ORM\Column(name="date_resrvation", type="date")
      */
-    private $dateResrvation;
+    private $dateReservation;
 
     /**
      * @var string
@@ -46,7 +46,14 @@ class Billets
      * @ORM\OneToOne(targetEntity="OC\LouvreBundle\Entity\Paiements", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
-    private $paiment;
+    private $paiement;
+
+    /**
+     * @ORM\OneToOne(targetEntity="OC\LouvreBundle\Entity\Produits", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $produit;
+
 
 
     /**
@@ -90,9 +97,9 @@ class Billets
      *
      * @return Billets
      */
-    public function setDateResrvation($dateResrvation)
+    public function setDateReservation($dateReservation)
     {
-        $this->dateResrvation = $dateResrvation;
+        $this->dateReservation = $dateReservation;
 
         return $this;
     }
@@ -102,9 +109,9 @@ class Billets
      *
      * @return \DateTime
      */
-    public function getDateResrvation()
+    public function getDateReservation()
     {
-        return $this->dateResrvation;
+        return $this->dateReservation;
     }
 
     /**
@@ -131,4 +138,52 @@ class Billets
         return $this->prixTotal;
     }
 
+
+    /**
+     * Set paiment
+     *
+     * @param \OC\LouvreBundle\Entity\Paiements $paiment
+     *
+     * @return Paiements
+     */
+    public function setPaiement(\OC\LouvreBundle\Entity\Paiements $paiement)
+    {
+        $this->paiement = $paiement;
+
+        return $this;
+    }
+
+    /**
+     * Get paiment
+     *
+     * @return \OC\LouvreBundle\Entity\Paiements
+     */
+    public function getPaiement()
+    {
+        return $this->paiement;
+    }
+
+    /**
+     * Set produit
+     *
+     * @param \OC\LouvreBundle\Entity\Produits $produits
+     *
+     * @return Produits
+     */
+    public function setProduit(Produits $produit)
+    {
+        $this->produit = $produit;
+
+        return $this;
+    }
+
+    /**
+     * Get produit
+     *
+     * @return \OC\LouvreBundle\Entity\Produits
+     */
+    public function getProduit()
+    {
+        return $this->produit;
+    }
 }

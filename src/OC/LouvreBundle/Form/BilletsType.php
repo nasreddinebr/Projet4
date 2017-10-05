@@ -21,7 +21,7 @@ class BilletsType extends AbstractType
                 'format' => 'dd-MM-yyyy',
                 'attr'  => array('class' => 'datePicker')
             ))
-            ->add('produits', EntityType::class, array(
+            ->add('produit', EntityType::class, array(
                 'class'         => 'OCLouvreBundle:Produits',
                 'choice_label'  => 'nomProduit',
             ))
