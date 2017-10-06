@@ -26,14 +26,17 @@ class GenerateurNumeroBillet
             ->getRepository('OCLouvreBundle:Billets')
             ->recupDernierBilletAjouter();
 
+        var_dump($dernierBillet);
+
         // Si le resultat renvoyé n'est pas vide en recupére les quatre chifre du numero de billet
         // Sinon $code vaut 1000
-        if (!empty($derinerBillet)) {
+        if (!empty($dernierBillet)) {
             $code = (int) substr($dernierBillet->getNumeroBillet(), -4);
             $code++;
         }else {
             $code = 1000;
         }
+
         $dateA = date("YdM");
         $numerobillet = $dateA . '-' . $code;
         return $numerobillet;

@@ -65,7 +65,7 @@ class LouvreController extends Controller
             $email = $_POST['email'];
             $name = $_POST['name'];
 
-            /*if (filter_var($email, FILTER_VALIDATE_EMAIL) && !empty($name) && !empty($token)) {
+            if (filter_var($email, FILTER_VALIDATE_EMAIL) && !empty($name) && !empty($token)) {
                 // Paiement et construction de l'instance $paiment
                 $paiementStripe = new PaimentStripe($token, $email, $name, $total);
                 $paiement = $paiementStripe->creePaiement();
@@ -89,7 +89,7 @@ class LouvreController extends Controller
             }
             $em = $this->getDoctrine()->getManager();
             $em->persist($formCollection);
-            $em->flush();*/
+            $em->flush();
             //$request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
             //return $this->redirectToRoute('oc_louvre_detaille', array('id' => 1));
         }

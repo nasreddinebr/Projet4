@@ -28,14 +28,14 @@ class FormCollection
     protected $clients;
 
     /**
-     * @ORM\OneToOne(targetEntity="OC\LouvreBundle\Entity\Billets", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="OC\LouvreBundle\Entity\Billets", cascade={"persist"})
      */
     protected $billets;
 
     public function __construct()
     {
         $this->clients = new ArrayCollection();
-        //$this->billets = new ArrayCollection();
+        $this->billets = new ArrayCollection();
     }
 
 
