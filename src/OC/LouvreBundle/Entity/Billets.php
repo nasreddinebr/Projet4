@@ -186,4 +186,25 @@ class Billets
     {
         return $this->produit;
     }
+
+    public function buildBillet(){
+        $this;
+    }
+
+    public function hydrate(array $billet,Paiements $paiement, $numeroBillet, $total){
+        // Parcourire l'objet
+        foreach ($billet as $key => $valeu){
+            // Onrecupére le nom du setter
+            $methode = 'set' . ucfirst($key);
+
+            // Si la le setter existe
+            if (method_exists($this, $methode)) {
+                // On apelle le seter corespondant et en le hydrate
+                $this->$methode($valeu);
+            }
+        }
+        $this->setNumeroBillet($numeroBillet);
+        $this->setPrixTotal($total);
+        $this->setPaiement($paiement);
+    }
 }

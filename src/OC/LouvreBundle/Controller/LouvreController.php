@@ -44,14 +44,14 @@ class LouvreController extends Controller
                 $idTarifs = $serviceImportTarif->getIdTarif($datesNaissances, $dateReservation);
             }
 
-            // Génération du numéro du billet
+            // Génération du numéro du billetTab
             $serviceGenerateurNumBillet= $this->container->get('oc_louvre.generateurNumeroBillet');
             $numeroBillet = $serviceGenerateurNumBillet->genereNumBillet();
 
             // Recuperation des prix par visiteur
-            $billet =  $formCollection->getBillets();
+            $billetTab =  $formCollection->getBillets();
 
-            $idProduit = $billet['produit']->getId();
+            $idProduit = $billetTab['produit']->getId();
             $listPrix = $this
                 ->getDoctrine()
                 ->getManager()
@@ -77,48 +77,34 @@ class LouvreController extends Controller
                 $paiement->setStripeClientId("cli21548796363");
                 $paiement->setEmail($email);
                 $paiement->setTitulaireCarte($name);
-
-
-                /*$billet =  $formCollection->getBillets();
-                //$billet->setNumeroBillet($numeroBillet);
-                $billet['numeroBillet'] = $numeroBillet;
-                //$billet->setPaiement($paiement);
-                $billet['paiement'] = $paiement;
-                //$billet->setprixTotal($total);
-                $billet['prixTotal'] = $total;*/
-
-                /*
-                 * construction des objets
-                 */
-                // Objet Billets
-                $billetObj = new Billets();
-
-                $billetObj->setPaiement($paiement);
-                $billetObj->setDateReservation($billet['dateReservation']);
-                $billetObj->setProduit($billet['produit']);
-                $billetObj->setNumeroBillet($numeroBillet);
-                $billetObj->setPrixTotal($total);
-                
-                
             }
 
-            $em = $this->getDoctrine()->getManager();
-            //$em->persist($paiement);
-            //$em->persist($billetObj);
+            // Exraction des donée pour hydrate l'objet Billets
+            foreach ($formCollection->getBillets() as $key => $value){
+                $extracteDonneeBillet[$key] = $value;
+            }
+            // Hydratation de l'objet Billet
+            $billet = new Billets();
+            $billet->hydrate($extracteDonneeBillet, $paiement, $numeroBillet, $total);
 
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($paiement);
+            $em->persist($billet);
+
+            //Hydratation de l'objet Clients
             foreach ($formCollection->getClients() as $clientX) {
+                $clientX->setBillet($billet);
                 $client =new Clients();
-                $client->buildClient($clientX, $billetObj);
+                // On hydrate Notre objet
+                $client->hydrate($clientX);
                 $em->persist($client);
             }
 
-
-            //$em->persist($formCollection);
             $em->flush();
             //$request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
             //return $this->redirectToRoute('oc_louvre_detaille', array('id' => 1));
         }
-        // Page du Formulaire d'achat des billet
+        // Page du Formulaire d'achat des billetTab
         return $this->render('OCLouvreBundle:Louvre:achatBillet.html.twig', array(
             'form' => $form->createView(),
         ));

@@ -187,12 +187,18 @@ class Clients
         return $this->billet;
     }
 
-    public function buildClient(Clients $client, $billet){
-        $this->setNom($client->getNom());
-        $this->setPrenom($client->getPrenom());
-        $this->setDateNaissance($client->getDateNaissance());
-        $this->setPays($client->getPays());
-        $this->setBillet($billet);
+    public function hydrate(Clients $client){
+        // Parcourire l'objet
+        foreach ($client as $key => $valeu){
+            // Onrecupére le nom du setter
+            $methode = 'set' . ucfirst($key);
+
+            // Si la le setter existe
+            if (method_exists($this, $methode)) {
+                // On apelle le seter corespondant et en le hydrate
+                $this->$methode($valeu);
+            }
+        }
     }
 
 
