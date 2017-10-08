@@ -28,7 +28,7 @@ class FormCollection
     protected $clients;
 
     /**
-     * @ORM\OneToOne(targetEntity="OC\LouvreBundle\Entity\Billets", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="OC\LouvreBundle\Entity\Billets", cascade={"persist"})
      */
     protected $billets;
 
@@ -37,18 +37,5 @@ class FormCollection
         $this->clients = new ArrayCollection();
         //$this->billets = new ArrayCollection();
     }
-
-    public function addClients(Clients $client) {
-        $client->addFormCollection($this);
-        $this->clients->add($client);
-    }
-
-    public function addBillets(Billets $billet) {
-        $billet->addFormCollection($this);
-        $this->billets->add($billet);
-    }
-
-
     
-
 }

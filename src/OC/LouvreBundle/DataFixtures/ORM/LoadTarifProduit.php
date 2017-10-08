@@ -31,13 +31,13 @@ class LoadTarifProduit implements FixtureInterface
         );
         foreach ($tarifsProduit as $index => $values) {
             // On crée la list des traifs produits
+            $produit = new Produits();
+
             foreach ($values as $key => $value) {
-                $tarifProduit = new TarifProduit();
-                $tarifs = new Tarifs;
-                $produits = new Produits;
-                $tarifProduit->setProduit($produits->getId());
-                $tarifProduit->setTarif($tarifs->getId());
-                $tarifProduit->setPrixUnitaire($value);
+                $tP = new TarifProduit();
+                $tP->setProduit($ind);
+                $tP->setTarif($tarifs->getId());
+                $tP->setPrixUnitaire($value);
                 // On persiste
                 $manager->persist($tarifProduit);
             }

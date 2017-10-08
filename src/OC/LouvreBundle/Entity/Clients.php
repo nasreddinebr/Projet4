@@ -187,5 +187,13 @@ class Clients
         return $this->billet;
     }
 
+    public function buildClient(Clients $client, $billet){
+        $this->setNom($client->getNom());
+        $this->setPrenom($client->getPrenom());
+        $this->setDateNaissance($client->getDateNaissance());
+        $this->setPays($client->getPays());
+        $this->setBillet($billet);
+    }
+
 
 }

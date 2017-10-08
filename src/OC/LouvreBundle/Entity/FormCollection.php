@@ -60,7 +60,6 @@ class FormCollection
     {
         $this->clients[] = $client;
 
-
         return $this;
     }
 
@@ -74,10 +73,8 @@ class FormCollection
         $this->clients->removeElement($client);
     }
 
-
     /**
      * Get clients
-     *
      *
      * @return \Doctrine\Common\Collections\Collection
      */
@@ -87,23 +84,33 @@ class FormCollection
     }
 
     /**
-     * Set billets
+     * Add billet
      *
-     * @param \OC\LouvreBundle\Entity\Billets $billets
+     * @param \OC\LouvreBundle\Entity\Billets $billet
      *
      * @return FormCollection
      */
-    public function setBillets(\OC\LouvreBundle\Entity\Billets $billets = null)
+    public function addBillet(\OC\LouvreBundle\Entity\Billets $billet)
     {
-        $this->billets = $billets;
+        $this->billets[] = $billet;
 
         return $this;
     }
 
     /**
+     * Remove billet
+     *
+     * @param \OC\LouvreBundle\Entity\Billets $billet
+     */
+    public function removeBillet(\OC\LouvreBundle\Entity\Billets $billet)
+    {
+        $this->billets->removeElement($billet);
+    }
+
+    /**
      * Get billets
      *
-     * @return \OC\LouvreBundle\Entity\Billets
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getBillets()
     {

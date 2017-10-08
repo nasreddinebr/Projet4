@@ -43,13 +43,13 @@ class Billets
     private $prixTotal;
 
     /**
-     * @ORM\OneToOne(targetEntity="OC\LouvreBundle\Entity\Paiements", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="OC\LouvreBundle\Entity\Paiements", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $paiement;
 
     /**
-     * @ORM\OneToOne(targetEntity="OC\LouvreBundle\Entity\Produits", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="OC\LouvreBundle\Entity\Produits", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $produit;
