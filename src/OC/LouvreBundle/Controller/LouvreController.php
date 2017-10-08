@@ -1,12 +1,10 @@
 <?php
 namespace OC\LouvreBundle\Controller;
-use Doctrine\DBAL\Driver\PDOException;
+
 use OC\LouvreBundle\Entity\FormCollection;
 use OC\LouvreBundle\Entity\Paiements;
-use OC\LouvreBundle\Api\PaimentStripe;
 use OC\LouvreBundle\Form\FormCollectionType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -27,7 +25,7 @@ class LouvreController extends Controller
              * détérminer le prix pour chaque visiteur et calculer le totale
              * */
             $billets =  $formCollection->getBillets();
-            $idProduit = $billets->getProduit();
+
             $dateReservation = $_POST['form_collection']['billets']['dateReservation'];
             $clients = $_POST['form_collection']['clients'];
 
@@ -48,17 +46,15 @@ class LouvreController extends Controller
             $serviceGenerateurNumBillet= $this->container->get('oc_louvre.generateurNumeroBillet');
             $numeroBillet = $serviceGenerateurNumBillet->genereNumBillet();
 
-            var_dump($numeroBillet);
-
             // Recuperation des prix par visiteur
+            //$idProduit = $billets->getProduit();
+            $idProduit = $billets['produit']->getId();
             $listPrix = $this
                 ->getDoctrine()
                 ->getManager()
                 ->getRepository('OCLouvreBundle:TarifProduit')
                 ->findPrix($idTarifs, $idProduit);
             $total = array_sum($listPrix);
-            //var_dump($listPrix);
-            //var_dump($total);
 
             // Initialisation des variable pour effectuer le paiment
             $token = $_POST['stripeToken'];
@@ -67,26 +63,35 @@ class LouvreController extends Controller
 
             if (filter_var($email, FILTER_VALIDATE_EMAIL) && !empty($name) && !empty($token)) {
                 // Paiement et construction de l'instance $paiment
-                $paiementStripe = new PaimentStripe($token, $email, $name, $total);
-                $paiement = $paiementStripe->creePaiement();
-                var_dump($paiement);
+                /*$paiementStripe = new PaimentStripe($token, $email, $name, $total);
+                $paiement = $paiementStripe->creePaiement();*/
+                //var_dump($paiement);
+                /****
+                 * test Paiement
+                 */
+                $paiement = new Paiements();
+                $paiement->setSommePayee(10.00);
+                $paiement->setStripeChargeId("user42515884555");
+                $paiement->setStripeClientId("cli21548796363");
+                $paiement->setEmail($email);
+                $paiement->setTitulaireCarte($name);
+
 
                 //$billets =  $formCollection->getBillets();
-                $billets->setnumeroBillet($numeroBillet);
-                $billets->setPaiement($paiement);
-                $billets->setprixTotal($total);
-                $client = $formCollection->getClients();
+                //$billets->setnumeroBillet($numeroBillet);
+
+                $billets['numeroBillet'] = $numeroBillet;
+                //$billets->setPaiement($paiement);
+                $billets['paiement'] = $paiement;
+                //$billets->setprixTotal($total);
+                $billets['prixTotal'] = $total;
+                var_dump($billets);
                 foreach ($formCollection->getClients() as $key => $value) {
                     $formCollection->getClients()[$key]->setbillet($billets);
                 }
-
-                var_dump($formCollection->getClients());
-
-                //var_dump($formCollection->getBillets());
-                //var_dump($formCollection->getClients());
-            }else {
-                throw new Exception("Un ou plusieurs champs sont vides (Token, Email ou Name");
+                
             }
+
             $em = $this->getDoctrine()->getManager();
             $em->persist($formCollection);
             $em->flush();

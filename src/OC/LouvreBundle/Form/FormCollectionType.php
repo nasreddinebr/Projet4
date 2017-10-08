@@ -12,7 +12,9 @@ class FormCollectionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('billets', BilletsType::class)
+            ->add('billets', BilletsType::class,array(
+                'data_class' => null
+            ))
             ->add('clients', CollectionType::class, array(
                 'entry_type'    => ClientsType::class,
                 'allow_add'     => true,
