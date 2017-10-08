@@ -94,13 +94,30 @@ class LouvreController extends Controller
             //Hydratation de l'objet Clients
             foreach ($formCollection->getClients() as $clientX) {
                 $clientX->setBillet($billet);
-                $client =new Clients();
+                $client = new Clients();
                 // On hydrate Notre objet
                 $client->hydrate($clientX);
                 $em->persist($client);
+                $clients[] = $client;
             }
 
             $em->flush();
+
+            // Envoi d'e-mail de confirmation d'achat
+            $message = \Swift_Message::newInstance()
+                ->setSubject('Confirmation de votre billet')
+                ->setFrom(array('berrachednasr@gmail.com' => 'Service vente Musee de Louvre'))
+                ->setTo($email)
+                ->setCharset('utf-8')
+                ->setContentType('text/html')
+                ->setBody(
+                    $this->renderView(
+                        'OCLouvreBundle:Louvre:validation_billet.html.twig',
+                        array('name' => $name)
+                    ));
+
+            $this->get('mailer')->send($message);
+
             //$request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
             //return $this->redirectToRoute('oc_louvre_detaille', array('id' => 1));
         }
