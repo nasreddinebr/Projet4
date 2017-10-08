@@ -2,6 +2,7 @@
 
 namespace OC\LouvreBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -54,6 +55,15 @@ class Billets
      */
     private $produit;
 
+    /**
+     * @ORM\OneToMany(targetEntity="OC\LouvreBundle\Entity\Clients", mappedBy="billet")
+     */
+    private $clients;
+
+    public function __construct()
+    {
+        $this->clients = new ArrayCollection();
+    }
 
 
     /**
@@ -185,5 +195,39 @@ class Billets
     public function getProduit()
     {
         return $this->produit;
+    }
+
+    /**
+     * Add client
+     *
+     * @param \OC\LouvreBundle\Entity\Clients $client
+     *
+     * @return Billets
+     */
+    public function addClient(\OC\LouvreBundle\Entity\Clients $client)
+    {
+        $this->clients[] = $client;
+
+        return $this;
+    }
+
+    /**
+     * Remove client
+     *
+     * @param \OC\LouvreBundle\Entity\Clients $client
+     */
+    public function removeClient(\OC\LouvreBundle\Entity\Clients $client)
+    {
+        $this->clients->removeElement($client);
+    }
+
+    /**
+     * Get clients
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getClients()
+    {
+        return $this->clients;
     }
 }

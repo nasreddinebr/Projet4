@@ -6,6 +6,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class BilletsType extends AbstractType
@@ -25,7 +26,11 @@ class BilletsType extends AbstractType
                 'class'         => 'OCLouvreBundle:Produits',
                 'choice_label'  => 'nomProduit',
             ))
-        ;
+            ->add('clients', CollectionType::class, array(
+                'entry_type'    => ClientsType::class,
+                'allow_add'     => true,
+                'allow_delete'  =>true
+            ));
     }
     
     /**

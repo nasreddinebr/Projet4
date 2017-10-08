@@ -3,6 +3,8 @@ namespace OC\LouvreBundle\Controller;
 
 use OC\LouvreBundle\Entity\FormCollection;
 use OC\LouvreBundle\Entity\Paiements;
+use OC\LouvreBundle\Entity\Billets;
+use OC\LouvreBundle\Form\BilletsType;
 use OC\LouvreBundle\Form\FormCollectionType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,15 +18,17 @@ class LouvreController extends Controller
         return new Response($contenue);
     }
     public function achatBilletsAction(Request $request) {
-        $formCollection = new FormCollection();
+        //$formCollection = new FormCollection();
+        $billet = new Billets();
         $form = $this->get('form.factory')->create(FormCollectionType::class, $formCollection);
+        $form = $this->get('form.factory')->create(BilletsType::class, $billet);
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
             /*
              * on verifie si le visiteur dispose du tarif reduit ou non
              * puis on  rassembler les dates de naissance pour
              * détérminer le prix pour chaque visiteur et calculer le totale
              * */
-            $billets =  $formCollection->getBillets();
+            /*$billets =  $formCollection->getBillets();
 
             $dateReservation = $_POST['form_collection']['billets']['dateReservation'];
             $clients = $_POST['form_collection']['clients'];
@@ -69,7 +73,7 @@ class LouvreController extends Controller
                 /****
                  * test Paiement
                  */
-                $paiement = new Paiements();
+               /* $paiement = new Paiements();
                 $paiement->setSommePayee(10.00);
                 $paiement->setStripeChargeId("user42515884555");
                 $paiement->setStripeClientId("cli21548796363");
@@ -85,18 +89,18 @@ class LouvreController extends Controller
                 $billets['paiement'] = $paiement;
                 //$billets->setprixTotal($total);
                 $billets['prixTotal'] = $total;
-                var_dump($billets);
+                var_dump($formCollection);
                 foreach ($formCollection->getClients() as $key => $value) {
-                    $formCollection->getClients()[$key]->setbillet($billets);
+                    $formCollection->getClients()[$key]->setbillet();
                 }
-                
+
             }
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($formCollection);
             $em->flush();
             //$request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
-            //return $this->redirectToRoute('oc_louvre_detaille', array('id' => 1));
+            //return $this->redirectToRoute('oc_louvre_detaille', array('id' => 1));*/
         }
         // Page du Formulaire d'achat des billets
         return $this->render('OCLouvreBundle:Louvre:achatBillet.html.twig', array(

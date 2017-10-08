@@ -1,7 +1,7 @@
 $(function() {
     // DatePicker
     var daysToDisable = ['1-11', '25-12', '1-5']; // Les jour ferier à importer depuis la BD
-    $( "#form_collection_billets_dateReservation" ).datepicker({
+    $( "#billets_dateReservation" ).datepicker({
         dateFormat: 'dd-mm-yy',
         minDate: 0,
         beforeShowDay: function (date) {
@@ -21,7 +21,7 @@ $(function() {
     });
 
     // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
-    var $container = $('div#form_collection_clients');
+    var $container = $('div#billets_clients');
 
     // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
     var index = $container.find(':input').length;
@@ -35,9 +35,9 @@ $(function() {
             ajoutPaiementForm($container);
         } else {
             for (var i = 0; i < index; i++) {
-                // S'il existe déjà des champs, on ajoute un lien de suppression pour chacune d'entre elles
+                // S'il existe déjà des champs, on ajoute d'autre
                 $container.children('div').each(function() {
-                    addDeleteLink($(this));
+                    delete($(this));
                 });
             }
             index = 0;
@@ -68,7 +68,7 @@ $(function() {
     }
 
     // La fonction qui ajoute un lien de suppression d'une catégorie
-    function addDeleteLink($prototype) {
+    function Delete($prototype) {
         // Création du lien
         //var $deleteLink = $('<a href="#" class="btn btn-danger">Supprimer</a>');
 

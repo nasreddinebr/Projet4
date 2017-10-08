@@ -50,7 +50,7 @@ class Clients
     private $pays;
 
     /**
-     * @ORM\ManyToOne(targetEntity="OC\LouvreBundle\Entity\Billets"))
+     * @ORM\ManyToOne(targetEntity="OC\LouvreBundle\Entity\Billets", inversedBy="clients"))
      * @ORM\JoinColumn(nullable=false)
      */
     private $billet;
