@@ -98,22 +98,17 @@ class LouvreController extends Controller
                 $billetObj->setProduit($billet['produit']);
                 $billetObj->setNumeroBillet($numeroBillet);
                 $billetObj->setPrixTotal($total);
-                
+
+
+
+                foreach ($formCollection->getClients() as $client) {
+                   $client->setBillet($billetObj);
+                }
                 
             }
 
             $em = $this->getDoctrine()->getManager();
-            //$em->persist($paiement);
-            //$em->persist($billetObj);
-
-            foreach ($formCollection->getClients() as $clientX) {
-                $client =new Clients();
-                $client->buildClient($clientX, $billetObj);
-                $em->persist($client);
-            }
-
-
-            //$em->persist($formCollection);
+            $em->persist($formCollection);
             $em->flush();
             //$request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
             //return $this->redirectToRoute('oc_louvre_detaille', array('id' => 1));
