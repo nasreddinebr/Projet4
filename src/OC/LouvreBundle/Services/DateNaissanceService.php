@@ -7,7 +7,7 @@ namespace OC\LouvreBundle\Services;
  *
  * @package \OC\LouvreBundle\Services
  */
-class DateNaissance
+class DateNaissanceService
 {
     public function datesNaissances($clients){
         foreach ($clients as $client){

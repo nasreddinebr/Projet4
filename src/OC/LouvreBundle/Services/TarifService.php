@@ -6,7 +6,7 @@ namespace OC\LouvreBundle\Services;
  *
  * @package \\${NAMESPACE}
  */
-class Tarif
+class TarifService
 {
 
     const NORMALE = 13;

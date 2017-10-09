@@ -3,18 +3,18 @@ services:
 #        class: OC\LouvreBundle\Example
 #        arguments: ["@service_id", "plain_value", "%parameter%"]
     oc_louvre.datesNassances:
-        class: OC\LouvreBundle\Services\DateNaissance
+        class: OC\LouvreBundle\Services\DateNaissanceService
 
     oc_louvre.tarifs:
-        class: OC\LouvreBundle\Services\Tarif
+        class: OC\LouvreBundle\Services\TarifService
 
     oc_louvre.importTarif:
-        class: OC\LouvreBundle\Services\ImportTarif
+        class: OC\LouvreBundle\Services\ImportTarifService
         arguments:
             - "@oc_louvre.tarifs"
             - "@doctrine.orm.entity_manager"
 
     oc_louvre.generateurNumeroBillet:
-        class: OC\LouvreBundle\Services\GenerateurNumeroBillet
+        class: OC\LouvreBundle\Services\GenerateurNumeroBilletService
         arguments:
             - "@doctrine.orm.entity_manager"

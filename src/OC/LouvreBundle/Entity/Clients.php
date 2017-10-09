@@ -50,10 +50,23 @@ class Clients
     private $pays;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="tarifReduit", type="boolean", nullable=true)
+     */
+    private $tarifReduit;
+
+    /**
      * @ORM\ManyToOne(targetEntity="OC\LouvreBundle\Entity\Billets"))
      * @ORM\JoinColumn(nullable=false)
      */
     private $billet;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="OC\LouvreBundle\Entity\Tarifs"))
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $tarif;
 
 
     /**
@@ -202,4 +215,52 @@ class Clients
     }
 
 
+
+    /**
+     * Set tarifReduit
+     *
+     * @param boolean $tarifReduit
+     *
+     * @return Clients
+     */
+    public function setTarifReduit($tarifReduit)
+    {
+        $this->tarifReduit = $tarifReduit;
+
+        return $this;
+    }
+
+    /**
+     * Get tarifReduit
+     *
+     * @return boolean
+     */
+    public function getTarifReduit()
+    {
+        return $this->tarifReduit;
+    }
+
+    /**
+     * Set tarif
+     *
+     * @param \OC\LouvreBundle\Entity\Tarifs $tarif
+     *
+     * @return Clients
+     */
+    public function setTarif(\OC\LouvreBundle\Entity\Tarifs $tarif)
+    {
+        $this->tarif = $tarif;
+
+        return $this;
+    }
+
+    /**
+     * Get tarif
+     *
+     * @return \OC\LouvreBundle\Entity\Tarifs
+     */
+    public function getTarif()
+    {
+        return $this->tarif;
+    }
 }

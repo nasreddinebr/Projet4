@@ -24,17 +24,15 @@ class TarifsRepository extends EntityRepository
             ->getResult();
     }
 
-    public function recupDernierBilletAjouter() {
-        // Verification sil existe des Billets
-        $query = $this->_em->createQuery('SELECT 1 FROM OCLouvreBundle:Tarifs');
-        $dernierBillets = $query->execute();
+    public function findTarif($tarifId) {
+        $qb = $this->createQueryBuilder('t');
+        $qb
+            ->where('t.id=:id')
+            ->setParameter('id', $tarifId);
 
-        // Si il existe des billets en recupére le dernier et en le renvoi
-        if (!empty($dernierBillets)){
-            $query = $this->_em->createQuery('SELECT t FROM OCLouvreBundle:Tarifs t ORDER BY t.id DESC ');
-            $dernierBillets = $query->setMaxResults(1)->getOneOrNullResult();
-        }
-        return $dernierBillets;
-
+        return $qb
+            ->getQuery()
+            ->getResult();
     }
+
 }

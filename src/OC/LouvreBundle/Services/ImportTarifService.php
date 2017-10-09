@@ -9,12 +9,12 @@ namespace OC\LouvreBundle\Services;
  *
  * @package \\${NAMESPACE}
  */
-class ImportTarif
+class ImportTarifService
 {
     protected $tarif;
     protected $getDoctrine;
 
-    public function __construct(Tarif $tarif, $getDoctrine)
+    public function __construct(TarifService $tarif, $getDoctrine)
     {
         $this->tarif = $tarif;
         $this->getDoctrine = $getDoctrine;

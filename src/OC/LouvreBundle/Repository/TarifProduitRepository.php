@@ -14,11 +14,6 @@ class TarifProduitRepository extends EntityRepository
 {
     public function findPrix(array $idTarifs, $idProduits) {
         foreach ($idTarifs as $key => $value){
-            /*$req = $this->_em->createQuery('SELECT tp.prixUnitaire FROM OCLouvreBundle:TarifProduit tp WHERE tp.tarif=:idTarif AND tp.produit=:idProduit');
-            $req
-                ->setParameter('idTarif', $value)
-                ->setParameter(tp.produit=:idProduit);
-            $result[] = $req->getResult();*/
             $qb = $this->createQueryBuilder('tp');
             $qb
                 ->where('tp.tarif=:idTarif')

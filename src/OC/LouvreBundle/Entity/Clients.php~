@@ -50,10 +50,23 @@ class Clients
     private $pays;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="tarifReduit", type="boolean", nullable=true)
+     */
+    private $tarifReduit;
+
+    /**
      * @ORM\ManyToOne(targetEntity="OC\LouvreBundle\Entity\Billets"))
      * @ORM\JoinColumn(nullable=false)
      */
     private $billet;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="OC\LouvreBundle\Entity\Tarifs"))
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $tarif;
 
 
     /**
@@ -162,4 +175,44 @@ class Clients
         return $this->pays;
     }
     
+
+    /**
+     * Set billet
+     *
+     * @param \OC\LouvreBundle\Entity\Billets $billet
+     *
+     * @return Billets
+     */
+    public function setBillet(Billets $billet)
+    {
+        $this->billet = $billet;
+
+        return $this;
+    }
+
+    /**
+     * Get billet
+     *
+     * @return \OC\LouvreBundle\Entity\Billets
+     */
+    public function getBillet()
+    {
+        return $this->billet;
+    }
+
+    public function hydrate(Clients $client){
+        // Parcourire l'objet
+        foreach ($client as $key => $valeu){
+            // Onrecupére le nom du setter
+            $methode = 'set' . ucfirst($key);
+
+            // Si la le setter existe
+            if (method_exists($this, $methode)) {
+                // On apelle le seter corespondant et en le hydrate
+                $this->$methode($valeu);
+            }
+        }
+    }
+
+
 }

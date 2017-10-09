@@ -13,7 +13,6 @@
 
         h3 {
             margin-top: 200px;
-            text-align: center;
         }
 
         table {
@@ -27,28 +26,33 @@
             border: 1px solid #dddddd;
             padding: 15px;
         }
-        th {
+        th, h3, .cent {
             text-align: center;
         }
+
         td {
             text-align: left;
+        }
+
+        .rightAlign {
+            text-align: right;
         }
 
         tr:nth-child(even) {
             background-color: #dddddd;
         }
     </style>
-    {{ dump }}
+
 <div class="container">
     <h3>Détail de votre commande</h3>
     <p class="pJustify">Cher Visiteur</p>
     <p class="pJustify">
         Le Musée du Louvre vous remercie de votre confiance.
         Vous trouverez ci-joint le récapitulatif de votre commande.
-        Veuillez noter que cet email fait office de réservation.
-        Ce document vous sera demandé à l'accueil du bâtiment.
-        Vous pouvez télécharger le plan du musée en cliquant sur ce lien :
-          Nous vous souhaitons une bonne visite
+        Un email vous à été envoyé sur l'adresse: {{ email }} et qui fera foi de Billet.<br>
+        Veuillez consulter votre boite e-mail, afin d'imprimer ce document qui vous sera demandé à l'accueil du bâtiment le jour de votre visite.<br>
+        Vous pouvez télécharger le plan du musée en cliquant sur ce <a href="http://www.louvre.fr/sites/default/files/medias/medias_fichiers/fichiers/pdf/louvre-plan-information-francais.pdf">lien</a> :
+        Nous vous souhaitons une bonne visite
     </p>
 
     <div>
@@ -56,25 +60,7 @@
         Date de visite : {{ billet.dateReservation.date|date("d F Y") }}</p>
     </div>
 
-    <table>
-        <tr>
-            <th>Nom et Prénom</th>
-            <th>Prix</th>
-        </tr>
-
-        {% for key, client in clients %}
-            <tr>
-                <td>{{ client.nom }} {{ client.prenom }}</td>
-                <td class="rightAlign">{#{ prix[key] }#} €</td>
-            </tr>
-        {% endfor %}
-
-        <tr>
-            <td style="text-align: center"><b>Total :</b></td>
-            <td class="rightAlign"><b>{#{ total }#} €</b></td>
-        </tr>
-
-    </table>
+    {{ include('OCLouvreBundle:Louvre:detail_table.html.twig') }}
 
 </div>
 

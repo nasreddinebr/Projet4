@@ -42,6 +42,7 @@ class LouvreController extends Controller
                 // Recupération des idTarif
                 $serviceImportTarif = $this->container->get('oc_louvre.importTarif');
                 $idTarifs = $serviceImportTarif->getIdTarif($datesNaissances, $dateReservation);
+
             }
 
             // Génération du numéro du billetTab
@@ -91,14 +92,28 @@ class LouvreController extends Controller
             $em->persist($paiement);
             $em->persist($billet);
 
+            //Recuperation des tarifs
+            foreach ($idTarifs as $key => $value) {
+                $tarifs[] = $this
+                    ->getDoctrine()
+                    ->getManager()
+                    ->getRepository('OCLouvreBundle:Tarifs')
+                    ->find($value);
+            }
+
+
+
             //Hydratation de l'objet Clients
+            $index = 0;
             foreach ($formCollection->getClients() as $clientX) {
+                $clientX->setTarif($tarifs[$index]);
                 $clientX->setBillet($billet);
                 $client = new Clients();
                 // On hydrate Notre objet
                 $client->hydrate($clientX);
                 $em->persist($client);
                 $clients[] = $client;
+                $index++;
             }
 
             $em->flush();
@@ -139,13 +154,13 @@ class LouvreController extends Controller
          * puis en passera les information à la vue
          * enfin en envoi les information par mail au client.
          */
+
         // Recuperration du billet
         $repositoriy = $this
             ->getDoctrine()
             ->getManager()
             ->getRepository('OCLouvreBundle:Billets');
         $billet = $repositoriy->find($id);
-        $email
 
         // Recuperation des visiteurs
         $repositoriy = $this
@@ -153,12 +168,43 @@ class LouvreController extends Controller
             ->getManager()
             ->getRepository('OCLouvreBundle:Clients');
         $clients = $repositoriy->findByBillet($id);
-        var_dump($billet->getpaiement()->getId());
+
+        foreach ($clients as $client) {
+            // Recuperation des tarifs
+            $tarif = $this
+                ->getDoctrine()
+                ->getManager()
+                ->getRepository('OCLouvreBundle:Tarifs')
+                ->findTarif($client->getTarif()->getId());
+
+            $tarifsId[] = $tarif[0]->getId();
+            $client->setTarif($tarif[0]);
+
+            // Recuperation des prix
+            $listPrix = $this
+                ->getDoctrine()
+                ->getManager()
+                ->getRepository('OCLouvreBundle:TarifProduit')
+                ->findPrix($tarifsId, $billet->getProduit()->getId());
+        }
+
+        // Recuperation d'email
+        $email = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('OCLouvreBundle:Paiements')
+            ->findEmail($billet->getPaiement()->getId());
+        $email = $email[0]['email'];
+        $dateR = $billet->getDateReservation()->format('d-m-Y');
+        $total = array_sum($listPrix);
 
         //return new Response("Votre enregistrement à bien été effectuer" . $id);
         return $this->render('OCLouvreBundle:Louvre:detailleBillet.html.twig', array(
-            'billet' => $billet,
-            'clients'   => $clients
+            'billet'    => $billet,
+            'clients'   => $clients,
+            'email'     => $email,
+            'prix'      => $listPrix,
+            'total'     => $total
         ));
     }
 

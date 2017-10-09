@@ -1,0 +1,21 @@
+<table>
+    <tr>
+        <th>Nom et Prénom</th>
+        <th>Tarif</th>
+        <th>Prix</th>
+    </tr>
+
+    {% for key, client in clients %}
+        <tr>
+            <td>{{ client.nom }} {{ client.prenom }}</td>
+            <td>{{ client.tarif.nomTarif|upper }}</td>
+            <td class="rightAlign">{{ prix[key] }} €</td>
+        </tr>
+    {% endfor %}
+
+    <tr>
+        <td class="cent" colspan="2"><b>Total :</b></td>
+        <td class="rightAlign"><b>{{ total }} €</b></td>
+    </tr>
+
+</table>

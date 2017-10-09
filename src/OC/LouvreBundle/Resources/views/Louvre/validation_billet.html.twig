@@ -28,10 +28,6 @@
             text-align: justify;
         }
 
-        h3 {
-            text-align: center;
-        }
-
         table {
             margin: auto;
             font-family: arial, sans-serif;
@@ -43,7 +39,7 @@
             border: 1px solid #dddddd;
             padding: 15px;
         }
-        th {
+        th, h3, .cent{
             text-align: center;
         }
         td {
@@ -90,25 +86,7 @@
         <p>Date de visite : {{ billet.dateReservation.date|date("d F Y") }}</p>
     </div>
 
-    <table>
-        <tr>
-            <th>Nom et Prénom</th>
-            <th>Prix</th>
-        </tr>
-
-        {% for key, client in clients %}
-            <tr>
-                <td>{{ client.nom }} {{ client.prenom }}</td>
-                <td class="rightAlign">{{ prix[key] }} €</td>
-            </tr>
-        {% endfor %}
-
-        <tr>
-            <td style="text-align: center"><b>Total :</b></td>
-            <td class="rightAlign"><b>{{ total }} €</b></td>
-        </tr>
-
-    </table>
+    {{ include('OCLouvreBundle:Louvre:detail_table.html.twig') }}
 
 </body>
 

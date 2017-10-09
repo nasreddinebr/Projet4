@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManager;
  *
  * @package \OC\LouvreBundle\Services
  */
-class GenerateurNumeroBillet
+class GenerateurNumeroBilletService
 {
     /**
      * @var EntityManager
