@@ -1,0 +1,81 @@
+{% extends "OCLouvreBundle::layout.html.twig" %}
+
+{% block body %}
+    <style>
+        body{
+            background-color: #e7e7e7;
+            color: #0f0f0f;
+        }
+        .pJustify {
+            padding: 20px;
+            text-align: justify;
+        }
+
+        h3 {
+            margin-top: 200px;
+            text-align: center;
+        }
+
+        table {
+            margin: auto;
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 90%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            padding: 15px;
+        }
+        th {
+            text-align: center;
+        }
+        td {
+            text-align: left;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+    {{ dump }}
+<div class="container">
+    <h3>Détail de votre commande</h3>
+    <p class="pJustify">Cher Visiteur</p>
+    <p class="pJustify">
+        Le Musée du Louvre vous remercie de votre confiance.
+        Vous trouverez ci-joint le récapitulatif de votre commande.
+        Veuillez noter que cet email fait office de réservation.
+        Ce document vous sera demandé à l'accueil du bâtiment.
+        Vous pouvez télécharger le plan du musée en cliquant sur ce lien :
+          Nous vous souhaitons une bonne visite
+    </p>
+
+    <div>
+        <p class="pJustify">Numéro de Billet : {{ billet.numeroBillet|upper }}<br>
+        Date de visite : {{ billet.dateReservation.date|date("d F Y") }}</p>
+    </div>
+
+    <table>
+        <tr>
+            <th>Nom et Prénom</th>
+            <th>Prix</th>
+        </tr>
+
+        {% for key, client in clients %}
+            <tr>
+                <td>{{ client.nom }} {{ client.prenom }}</td>
+                <td class="rightAlign">{#{ prix[key] }#} €</td>
+            </tr>
+        {% endfor %}
+
+        <tr>
+            <td style="text-align: center"><b>Total :</b></td>
+            <td class="rightAlign"><b>{#{ total }#} €</b></td>
+        </tr>
+
+    </table>
+
+</div>
+
+{% endblock %}

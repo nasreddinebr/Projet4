@@ -113,13 +113,18 @@ class LouvreController extends Controller
                 ->setBody(
                     $this->renderView(
                         'OCLouvreBundle:Louvre:validation_billet.html.twig',
-                        array('name' => $name)
+                        array(
+                            'clients'       => $clients,
+                            'billet'        => $billet,
+                            'prix'          => $listPrix,
+                            'total'         => $total
+                        )
                     ));
 
             $this->get('mailer')->send($message);
 
             //$request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
-            //return $this->redirectToRoute('oc_louvre_detaille', array('id' => 1));
+            return $this->redirectToRoute('oc_louvre_detaille', array('id'=> $billet->getId()));
         }
         // Page du Formulaire d'achat des billetTab
         return $this->render('OCLouvreBundle:Louvre:achatBillet.html.twig', array(
@@ -134,7 +139,27 @@ class LouvreController extends Controller
          * puis en passera les information à la vue
          * enfin en envoi les information par mail au client.
          */
-        return new Response("Votre enregistrement à bien été effectuer" . $id);
+        // Recuperration du billet
+        $repositoriy = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('OCLouvreBundle:Billets');
+        $billet = $repositoriy->find($id);
+        $email
+
+        // Recuperation des visiteurs
+        $repositoriy = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('OCLouvreBundle:Clients');
+        $clients = $repositoriy->findByBillet($id);
+        var_dump($billet->getpaiement()->getId());
+
+        //return new Response("Votre enregistrement à bien été effectuer" . $id);
+        return $this->render('OCLouvreBundle:Louvre:detailleBillet.html.twig', array(
+            'billet' => $billet,
+            'clients'   => $clients
+        ));
     }
 
     public function jourFerierAction() {

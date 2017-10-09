@@ -1,9 +1,115 @@
-{# app/Resources/views/Emails/registration.html.twig #}
-<h3>You did it! You registered!</h3>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <style>
+        .flex-container {
+            display: -webkit-flex;
+            display: flex;
+            width: 100%;
+            height: 250px;
+        }
 
-Hi {{ name }}! You're successfully registered.
+        .flex-item {
+            width: 450px;
+            height: 190px;
+        }
 
+        .flex-item:first-child {
+            margin-right: auto;
+        }
 
-Thanks!
+        .center {
+            padding: 70px 100px;
+        }
 
+        p {
+            padding: 20px;
+            text-align: justify;
+        }
 
+        h3 {
+            text-align: center;
+        }
+
+        table {
+            margin: auto;
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 90%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            padding: 15px;
+        }
+        th {
+            text-align: center;
+        }
+        td {
+            text-align: left;
+        }
+
+        .rightAlign {
+            text-align: right;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="flex-container">
+        <div class="flex-item">
+            <img src="http://jiajuanli.eu/wp-content/uploads/2017/04/Louvre-LOGO.png">
+        </div>
+        <div class="flex-item center">
+            <address>
+                <b>Musée de Louvre</b><br>
+                Rue de Rivoli,<br>
+                75001 Paris
+            </address>
+        </div>
+    </div>
+
+    <h3>Détail de votre commande</h3>
+    <p>Cher Visiteur</p>
+    <p>
+        Le Musée du Louvre vous remercie de votre confiance.
+        Vous trouverez ci-joint le récapitulatif de votre commande.
+        Veuillez noter que cet email fait office de réservation.
+        Ce document vous sera demandé à l'accueil du bâtiment.
+        Vous pouvez télécharger le plan du musée en cliquant sur ce lien :
+        Nous vous souhaitons une bonne visite
+    </p>
+    <div>
+        <p>Numéro de Billet : {{ billet.numeroBillet|upper }}</p>
+        <p>Date de visite : {{ billet.dateReservation.date|date("d F Y") }}</p>
+    </div>
+
+    <table>
+        <tr>
+            <th>Nom et Prénom</th>
+            <th>Prix</th>
+        </tr>
+
+        {% for key, client in clients %}
+            <tr>
+                <td>{{ client.nom }} {{ client.prenom }}</td>
+                <td class="rightAlign">{{ prix[key] }} €</td>
+            </tr>
+        {% endfor %}
+
+        <tr>
+            <td style="text-align: center"><b>Total :</b></td>
+            <td class="rightAlign"><b>{{ total }} €</b></td>
+        </tr>
+
+    </table>
+
+</body>
+
+</html>
