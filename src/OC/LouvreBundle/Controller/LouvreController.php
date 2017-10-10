@@ -106,6 +106,7 @@ class LouvreController extends Controller
             foreach ($formCollection->getClients() as $clientX) {
                 $clientX->setTarif($tarifs[$index]);
                 $clientX->setBillet($billet);
+                $clientX->setDateReservation($billet->getDateReservation());
                 $client = new Clients();
                 // On hydrate Notre objet
                 $client->hydrate($clientX);

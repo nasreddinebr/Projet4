@@ -57,6 +57,13 @@ class Clients
     private $tarifReduit;
 
     /**
+     * @var \dateTime
+     *
+     * @ORM\Column(name="dateReservation", type="date")
+     */
+    private $dateReservation;
+
+    /**
      * @ORM\ManyToOne(targetEntity="OC\LouvreBundle\Entity\Billets"))
      * @ORM\JoinColumn(nullable=false)
      */
@@ -200,22 +207,6 @@ class Clients
         return $this->billet;
     }
 
-    public function hydrate(Clients $client){
-        // Parcourire l'objet
-        foreach ($client as $key => $valeu){
-            // Onrecupére le nom du setter
-            $methode = 'set' . ucfirst($key);
-
-            // Si la le setter existe
-            if (method_exists($this, $methode)) {
-                // On apelle le seter corespondant et en le hydrate
-                $this->$methode($valeu);
-            }
-        }
-    }
-
-
-
     /**
      * Set tarifReduit
      *
@@ -262,5 +253,43 @@ class Clients
     public function getTarif()
     {
         return $this->tarif;
+    }
+
+    /**
+     * Set dateReservation
+     *
+     * @param \DateTime $dateReservation
+     *
+     * @return Clients
+     */
+    public function setDateReservation($dateReservation)
+    {
+        $this->dateReservation = $dateReservation;
+
+        return $this;
+    }
+
+    /**
+     * Get dateReservation
+     *
+     * @return \DateTime
+     */
+    public function getDateReservation()
+    {
+        return $this->dateReservation;
+    }
+
+    public function hydrate(Clients $client){
+        // Parcourire l'objet
+        foreach ($client as $key => $valeu){
+            // Onrecupére le nom du setter
+            $methode = 'set' . ucfirst($key);
+
+            // Si la le setter existe
+            if (method_exists($this, $methode)) {
+                // On apelle le seter corespondant et en le hydrate
+                $this->$methode($valeu);
+            }
+        }
     }
 }
