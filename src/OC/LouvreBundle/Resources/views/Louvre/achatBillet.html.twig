@@ -46,8 +46,8 @@
 {% endblock %}
 {% block javascript %}
     <script type="text/javascript">
-        Stripe.setPublishableKey('pk_test_y92oqjpy2wytEQMZSoEnUVYR')
-        var $form = $('#payment-form')
+        Stripe.setPublishableKey('pk_test_y92oqjpy2wytEQMZSoEnUVYR');
+        var $form = $('#payment-form');
         $form.submit(function (e) {
             e.preventDefault();
             //$form.find('.button').attr('disabled', true)
@@ -59,8 +59,8 @@
                     $form.prepend('<div class="alert alert-danger" role="alert"><p>' + response.error.message + '</p></div>');
                 } else {
                     var token = response.id;
-                    $form.append($('<input type="hidden" name="stripeToken">').val(token))
-                    $form.get(0).submit()
+                    $form.append($('<input type="hidden" name="stripeToken">').val(token));
+                    $form.get(0).submit();
                 }
             })
         })

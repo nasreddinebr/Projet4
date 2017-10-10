@@ -22,6 +22,14 @@ class AchatBilletLouvreController extends Controller
     public function achatBilletsAction(Request $request) {
         $formCollection = new FormCollection();
         $form = $this->get('form.factory')->create(FormCollectionType::class, $formCollection);
+
+        // Récupération des jours de fermeture
+        $joursFermeture = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('OCLouvreBundle:JoursFermeture')
+            ->findAll();
+
         if ($request->isMethod('POST') && $form->handleRequest($request)->isValid()) {
             /*
              * on verifie si le visiteur dispose du tarif reduit ou non
@@ -34,7 +42,7 @@ class AchatBilletLouvreController extends Controller
             $dateReservation = $formCollection->getBillets()->get('dateReservation')->format('d-m-Y');
             $clientsForm = $formCollection->getClients();
 
-            // Détéminer les tarifs
+            // Détéminer les tarifs et les prix et génération du numéro de billet
             if (!empty($clientsForm) && !empty($dateReservation)){
                 foreach ($clientsForm as $client) {
                     if ($client->getTarifReduit()) {
@@ -162,7 +170,8 @@ class AchatBilletLouvreController extends Controller
         }
         // Page du Formulaire d'achat des billetTab
         return $this->render('OCLouvreBundle:Louvre:achatBillet.html.twig', array(
-            'form' => $form->createView(),
+            'form'              => $form->createView(),
+            'joursFermeture'    => $joursFermeture
         ));
     }
 

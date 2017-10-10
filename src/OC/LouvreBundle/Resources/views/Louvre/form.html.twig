@@ -5,7 +5,9 @@
     {{ form_errors(form) }}
 
 
-    {# Génération du label + error + widget pour un champ. #}
+    {% for jourFermeture in joursFermeture %}
+        <input type="hidden" class="jourFermer" value="{{ jourFermeture.joursFermeture }}">
+    {% endfor %}
 
 
     <div class="form-inline">

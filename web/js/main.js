@@ -1,6 +1,11 @@
 $(function() {
     // DatePicker
-    var daysToDisable = ['1-11', '25-12', '1-5']; // Les jour ferier à importer depuis la BD
+    // On recupere les jours de fermeture qu'on importer depuis la DB
+    var daysToDisable = []; // Les jours de fermeture
+    $('.jourFermer').ech(function (index, element) {
+        daysToDisable[index] = $(element).val();
+    });
+    // Integration de datepicker et desactivation des jours de fermeture
     $( "#form_collection_billets_dateReservation" ).datepicker({
         dateFormat: 'dd-mm-yy',
         minDate: 0,
@@ -10,16 +15,16 @@ $(function() {
             var currentDate =date.getDate();
             if (day == 2) { // desactivation de tou les mardi
                 return [false];
-            }else if ($.inArray(currentDate + '-' + (month + 1), daysToDisable) != -1){
+            }else if ($.inArray(currentDate + '/' + (month + 1), daysToDisable) != -1){
                 // Desactivation des jour ferier
                 return [false];
             } else {
                 return [true];
             }
         }
-
     });
 
+    //Form Collection
     // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
     var $container = $('div#form_collection_clients');
 
@@ -30,17 +35,18 @@ $(function() {
     $('#add_client').on('click', function(e) {
         var $number = document.getElementById("num").value;
         if (index == 0) {
-            // On ajoute les champs à chaque clic sur le lien de validation.
+            // On ajoute les champs selon le nombre des visiteur
             addClient($container, $number);
             ajoutPaiementForm($container);
         } else {
+            //si le client change le nombre de visiteur et s'il exist déja des champs on les supprime
             for (var i = 0; i < index; i++) {
-                // S'il existe déjà des champs, on ajoute un lien de suppression pour chacune d'entre elles
                 $container.children('div').each(function() {
                     addDeleteLink($(this));
                 });
             }
             index = 0;
+            // On recrée les champ des selon le nouveaux nombre des visiteurs
             addClient($container, $number);
         }
         e.preventDefault(); // évite qu'un # apparaisse dans l'URL
@@ -67,19 +73,13 @@ $(function() {
         }
     }
 
-    // La fonction qui ajoute un lien de suppression d'une catégorie
+    // La fonction qui supprime les catégorie
     function addDeleteLink($prototype) {
-        // Création du lien
-        //var $deleteLink = $('<a href="#" class="btn btn-danger">Supprimer</a>');
-
-        // Ajout du lien
-        //$prototype.append($deleteLink);
-
         $prototype.remove();
-
         return false;
     }
 
+    // Formulaire de paiement
     function ajoutPaiementForm($prototype) {
         var $paiementForm = $('<hr>\n' +
             '\t\t\t\t\t<div class="form-inline col-sm-6">\n' +
