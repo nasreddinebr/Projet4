@@ -5,6 +5,7 @@ namespace OC\LouvreBundle\Form;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CountryType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,6 +22,10 @@ class ClientsType extends AbstractType
             ->add('prenom', TextType::class)
             ->add('dateNaissance', BirthdayType::class, array(
                 'format' => 'dd-MM-yyyy',
+            ))
+            ->add('tarifReduit', CheckboxType::class, array(
+                'label'     => 'Tarif réduit',
+                'required'  => false,
             ))
             ->add('pays', CountryType::class);
     }

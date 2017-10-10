@@ -13,6 +13,6 @@ class PaiementsRepository extends \Doctrine\ORM\EntityRepository
     public function findEmail($id) {
         $query = $this->_em->createQuery('SELECT p.email FROM OCLouvreBundle:Paiements p WHERE p.id =:id');
         $query->setParameter('id', $id);
-        return $query->getResult();
+        return $query->getOneOrNullResult();
     }
 }

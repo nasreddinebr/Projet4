@@ -13,18 +13,21 @@ use Doctrine\ORM\QueryBuilder;
 
 class TarifsRepository extends EntityRepository
 {
-    public function findListTarifs($tarif) {
-        $qb = $this->createQueryBuilder('t');
-        $qb
+    public function findTarifByLocalisator($localisatorTarif) {
+        /*$qb = $this->createQueryBuilder('t');
+        $qb*/
+        $qb = $this->_em->createQueryBuilder()
+            ->select('t.id')
+            ->from($this->_entityName, 't')
             ->where('t.localisateurTarif=:localisateur_tarif')
-            ->setParameter('localisateur_tarif', $tarif);
+            ->setParameter('localisateur_tarif', $localisatorTarif);
 
         return $qb
             ->getQuery()
-            ->getResult();
+            ->getOneOrNullResult();
     }
 
-    public function findTarif($tarifId) {
+    public function findTarifById($tarifId) {
         $qb = $this->createQueryBuilder('t');
         $qb
             ->where('t.id=:id')
@@ -32,7 +35,7 @@ class TarifsRepository extends EntityRepository
 
         return $qb
             ->getQuery()
-            ->getResult();
+            ->getOneOrNullResult();
     }
 
 }

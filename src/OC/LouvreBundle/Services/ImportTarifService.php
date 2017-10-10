@@ -11,33 +11,33 @@ namespace OC\LouvreBundle\Services;
  */
 class ImportTarifService
 {
-    protected $tarif;
+    protected $localisatorTarif;
     protected $getDoctrine;
 
     public function __construct(TarifService $tarif, $getDoctrine)
     {
-        $this->tarif = $tarif;
+        $this->localisatorTarif = $tarif;
         $this->getDoctrine = $getDoctrine;
     }
 
+    /**
+     * @param $datesNaissances
+     * @param $dateReservation
+     * @return array
+     */
     public function getIdTarif($datesNaissances, $dateReservation) {
 
-        // On recupere les localistaeurs des tarif
-        $tarifs = $this->tarif->isTarif($datesNaissances, $dateReservation);
+        // On recupere les localistaeurs des tarif depuis le service
+        // TarifService
+        $localisatorTarifs = $this->localisatorTarif->isTarif($datesNaissances, $dateReservation);
 
-        // Recuperation de idTarifs
-        foreach ($tarifs as $key => $value) {
-            $listTarifs = $this
-                ->getDoctrine
-                ->getRepository('OCLouvreBundle:Tarifs')
-                ->findListTarifs($value);
+        // Recuperation des idTarifs depuis la DB
+        $idTarif = $this
+            ->getDoctrine
+            ->getRepository('OCLouvreBundle:Tarifs')
+            ->findTarifByLocalisator($localisatorTarifs);
 
-            // Recuperation des id des tarifs
-            foreach ($listTarifs as $key => $value) {
-                $idTarifs[] = $value->getId();
-            }
-        }
-        return $idTarifs;
+        return $idTarif;
     }
 
 }

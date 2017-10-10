@@ -6,12 +6,12 @@ oc_louvre_homepage:
 oc_louvre_billetterie:
     path:     /billetterie
     defaults:
-        _controller: OCLouvreBundle:Louvre:achatBillets
+        _controller: OCLouvreBundle:AchatBilletLouvre:achatBillets
 
 oc_louvre_detaille:
     path:     /detaille/{id}/{produit}
     defaults:
-        _controller: OCLouvreBundle:Louvre:detailleBillets
+        _controller: OCLouvreBundle:DetailleBilletLouvre:detailleBillets
     requirements:
         id: \d+
 

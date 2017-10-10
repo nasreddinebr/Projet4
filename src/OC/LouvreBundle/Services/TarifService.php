@@ -13,24 +13,26 @@ class TarifService
     const ENFANT = 12;
     const SENIOR = 60;
 
-    public function isTarif($datesNaissances, $dateVisite) {
+    /**
+     * @param $datesNaissances
+     * @param $dateVisite
+     * @return array
+     */
+    public function isTarif($dateNaissance, $dateVisite) {
 
         // Calcule d'age du visiteur le jour de la visite
         $dateVisite = explode('-', $dateVisite);
-        foreach ($datesNaissances as $dateNaissance) {
-            // Calcule d'age du visiteur
-            $age = (($dateNaissance['month'] < $dateVisite[1]) ||
-                ($dateNaissance['month'] == $dateVisite['1'] && $dateNaissance['day'] <= $dateVisite['0'])) ?
-                $dateVisite[2] - $dateNaissance['year'] : $dateVisite[2] - $dateNaissance['year']-1;
+        $age = (($dateNaissance[1] < $dateVisite[1]) ||
+            ($dateNaissance[1] == $dateVisite['1'] && $dateNaissance[0] <= $dateVisite[0])) ?
+            $dateVisite[2] - $dateNaissance[2] : $dateVisite[2] - $dateNaissance[2]-1;
 
-            // Recuperation du tarif
-            if ($age >= 4 && $age <= 12) {
-                $localisateurTarif[] = self::ENFANT;
-            }elseif ($age > 12 && $age < 60) {
-                $localisateurTarif[] = self::NORMALE;
-            }elseif ($age >= 60) {
-                $localisateurTarif[] = self::SENIOR;
-            }
+        // Recuperation de localisateur du tarif
+        if ($age >= 4 && $age <= 12) {
+            $localisateurTarif[] = self::ENFANT;
+        }elseif ($age > 12 && $age < 60) {
+            $localisateurTarif[] = self::NORMALE;
+        }elseif ($age >= 60) {
+            $localisateurTarif[] = self::SENIOR;
         }
         return $localisateurTarif;
     }

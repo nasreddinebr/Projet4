@@ -9,13 +9,18 @@ namespace OC\LouvreBundle\Services;
  */
 class DateNaissanceService
 {
-    public function datesNaissances($clients){
-        foreach ($clients as $client){
-            if (array_key_exists("dateNaissance", $client)) {
-                $dateNaissance[] = $client['dateNaissance'];
-            }
-        }
-        return $dateNaissance;
-    }
+    /**
+     * @param $clients
+     * @return array
+     */
+    public function datesNaissances($client){
+        //foreach ($clients as $client){
+            $datesNaissance = explode('-',$client
+                ->getDateNaissance()
+                ->format('d-m-Y')
+            );
 
+       // }
+        return $datesNaissance;
+    }
 }
