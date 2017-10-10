@@ -9,13 +9,13 @@
         <tr>
             <td>{{ client.nom }} {{ client.prenom }}</td>
             <td>Tarif : {{ client.tarif.nomTarif|upper }} - Billet : {{ billet.produit.nomProduit }}</td>
-            <td class="rightAlign">{{ prix[key] }} €</td>
+            <td class="rightAlign">{{ prix[key]|number_format(2, '.', ',') }} €</td>
         </tr>
     {% endfor %}
 
     <tr>
         <td class="cent" colspan="2"><b>Total :</b></td>
-        <td class="rightAlign"><b>{{ total }} €</b></td>
+        <td class="rightAlign"><b>{{ total|number_format(2, '.', ',') }} €</b></td>
     </tr>
 
 </table>
