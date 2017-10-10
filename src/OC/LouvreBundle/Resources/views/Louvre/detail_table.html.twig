@@ -8,7 +8,7 @@
     {% for key, client in clients %}
         <tr>
             <td>{{ client.nom }} {{ client.prenom }}</td>
-            <td>{{ client.tarif.nomTarif|upper }}</td>
+            <td>Tarif : {{ client.tarif.nomTarif|upper }} - Billet : {{ billet.produit.nomProduit }}</td>
             <td class="rightAlign">{{ prix[key] }} €</td>
         </tr>
     {% endfor %}

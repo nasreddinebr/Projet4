@@ -9,7 +9,7 @@ oc_louvre_billetterie:
         _controller: OCLouvreBundle:Louvre:achatBillets
 
 oc_louvre_detaille:
-    path:     /detaille/{id}
+    path:     /detaille/{id}/{produit}
     defaults:
         _controller: OCLouvreBundle:Louvre:detailleBillets
     requirements:

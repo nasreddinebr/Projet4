@@ -101,8 +101,6 @@ class LouvreController extends Controller
                     ->find($value);
             }
 
-
-
             //Hydratation de l'objet Clients
             $index = 0;
             foreach ($formCollection->getClients() as $clientX) {
@@ -139,20 +137,22 @@ class LouvreController extends Controller
             $this->get('mailer')->send($message);
 
             //$request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
-            return $this->redirectToRoute('oc_louvre_detaille', array('id'=> $billet->getId()));
+            return $this->redirectToRoute('oc_louvre_detaille', array(
+                'id'        => $billet->getId(),
+                'produit'   => $billet->getProduit()->getNomProduit()
+            ));
         }
         // Page du Formulaire d'achat des billetTab
         return $this->render('OCLouvreBundle:Louvre:achatBillet.html.twig', array(
             'form' => $form->createView(),
         ));
     }
-    public function detailleBilletsAction($id) {
+    public function detailleBilletsAction($id, $produit) {
         /**
          * $id vaut l'id de la reservation.
          * Ici en recupérera les données à afficher
          * depuis la base de donnée.
-         * puis en passera les information à la vue
-         * enfin en envoi les information par mail au client.
+         * puis en passera les information à la vue.
          */
 
         // Recuperration du billet
@@ -161,6 +161,7 @@ class LouvreController extends Controller
             ->getManager()
             ->getRepository('OCLouvreBundle:Billets');
         $billet = $repositoriy->find($id);
+        $billet->getProduit()->setNomProduit($produit);
 
         // Recuperation des visiteurs
         $repositoriy = $this
@@ -185,6 +186,7 @@ class LouvreController extends Controller
                 ->getDoctrine()
                 ->getManager()
                 ->getRepository('OCLouvreBundle:TarifProduit')
+                //->findPrix($tarifsId, $billet->getProduit()->getId());
                 ->findPrix($tarifsId, $billet->getProduit()->getId());
         }
 
