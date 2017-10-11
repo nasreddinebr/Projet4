@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost:80
--- Généré le :  Mer 04 Octobre 2017 à 20:38
+-- Généré le :  Mer 11 Octobre 2017 à 15:33
 -- Version du serveur :  5.5.57-0+deb8u1
 -- Version de PHP :  5.6.30-0+deb8u1
 
@@ -28,11 +28,11 @@ SET time_zone = "+00:00";
 
 CREATE TABLE IF NOT EXISTS `billets` (
 `id` int(11) NOT NULL,
-  `paiment_id` int(11) NOT NULL,
+  `paiement_id` int(11) NOT NULL,
+  `produit_id` int(11) NOT NULL,
   `numero_billet` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `date_resrvation` date NOT NULL,
-  `prix_total` decimal(10,2) NOT NULL,
-  `produits_id` int(11) NOT NULL
+  `prix_total` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -44,10 +44,13 @@ CREATE TABLE IF NOT EXISTS `billets` (
 CREATE TABLE IF NOT EXISTS `clients` (
 `id` int(11) NOT NULL,
   `billet_id` int(11) NOT NULL,
+  `tarif_id` int(11) NOT NULL,
   `nom` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `prenom` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `date_naissance` date NOT NULL,
-  `pays` varchar(255) COLLATE utf8_unicode_ci NOT NULL
+  `pays` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `tarifReduit` tinyint(1) DEFAULT NULL,
+  `dateReservation` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -57,8 +60,18 @@ CREATE TABLE IF NOT EXISTS `clients` (
 --
 
 CREATE TABLE IF NOT EXISTS `formCollection` (
-`id` int(11) NOT NULL,
-  `billets_id` int(11) DEFAULT NULL
+`id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `form_collection_billets`
+--
+
+CREATE TABLE IF NOT EXISTS `form_collection_billets` (
+  `form_collection_id` int(11) NOT NULL,
+  `billets_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- --------------------------------------------------------
@@ -88,8 +101,8 @@ CREATE TABLE IF NOT EXISTS `jours_fermeture` (
 --
 
 INSERT INTO `jours_fermeture` (`id`, `jours_fermeture`) VALUES
-(1, '01/05'),
-(2, '01/11'),
+(1, '1/5'),
+(2, '1/11'),
 (3, '25/12');
 
 -- --------------------------------------------------------
@@ -183,19 +196,25 @@ INSERT INTO `tarif_produit` (`id`, `tarif_id`, `produit_id`, `prixUnitaire`) VAL
 -- Index pour la table `billets`
 --
 ALTER TABLE `billets`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `UNIQ_4FCF9B6878789290` (`paiment_id`), ADD UNIQUE KEY `UNIQ_4FCF9B68CD11A2CF` (`produits_id`);
+ ADD PRIMARY KEY (`id`), ADD KEY `IDX_4FCF9B682A4C4478` (`paiement_id`), ADD KEY `IDX_4FCF9B68F347EFB` (`produit_id`);
 
 --
 -- Index pour la table `clients`
 --
 ALTER TABLE `clients`
- ADD PRIMARY KEY (`id`), ADD KEY `IDX_C82E7444973C78` (`billet_id`);
+ ADD PRIMARY KEY (`id`), ADD KEY `IDX_C82E7444973C78` (`billet_id`), ADD KEY `IDX_C82E74357C0A59` (`tarif_id`);
 
 --
 -- Index pour la table `formCollection`
 --
 ALTER TABLE `formCollection`
- ADD PRIMARY KEY (`id`), ADD UNIQUE KEY `UNIQ_8F8C78F3B9EBD317` (`billets_id`);
+ ADD PRIMARY KEY (`id`);
+
+--
+-- Index pour la table `form_collection_billets`
+--
+ALTER TABLE `form_collection_billets`
+ ADD PRIMARY KEY (`form_collection_id`,`billets_id`), ADD KEY `IDX_327F00C2F29F11C2` (`form_collection_id`), ADD KEY `IDX_327F00C2B9EBD317` (`billets_id`);
 
 --
 -- Index pour la table `form_collection_clients`
@@ -285,20 +304,22 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 -- Contraintes pour la table `billets`
 --
 ALTER TABLE `billets`
-ADD CONSTRAINT `FK_4FCF9B6878789290` FOREIGN KEY (`paiment_id`) REFERENCES `paiements` (`id`),
-ADD CONSTRAINT `FK_4FCF9B68CD11A2CF` FOREIGN KEY (`produits_id`) REFERENCES `produits` (`id`);
+ADD CONSTRAINT `FK_4FCF9B68F347EFB` FOREIGN KEY (`produit_id`) REFERENCES `produits` (`id`),
+ADD CONSTRAINT `FK_4FCF9B682A4C4478` FOREIGN KEY (`paiement_id`) REFERENCES `paiements` (`id`);
 
 --
 -- Contraintes pour la table `clients`
 --
 ALTER TABLE `clients`
+ADD CONSTRAINT `FK_C82E74357C0A59` FOREIGN KEY (`tarif_id`) REFERENCES `tarifs` (`id`),
 ADD CONSTRAINT `FK_C82E7444973C78` FOREIGN KEY (`billet_id`) REFERENCES `billets` (`id`);
 
 --
--- Contraintes pour la table `formCollection`
+-- Contraintes pour la table `form_collection_billets`
 --
-ALTER TABLE `formCollection`
-ADD CONSTRAINT `FK_8F8C78F3B9EBD317` FOREIGN KEY (`billets_id`) REFERENCES `billets` (`id`);
+ALTER TABLE `form_collection_billets`
+ADD CONSTRAINT `FK_327F00C2B9EBD317` FOREIGN KEY (`billets_id`) REFERENCES `billets` (`id`) ON DELETE CASCADE,
+ADD CONSTRAINT `FK_327F00C2F29F11C2` FOREIGN KEY (`form_collection_id`) REFERENCES `formCollection` (`id`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `form_collection_clients`
