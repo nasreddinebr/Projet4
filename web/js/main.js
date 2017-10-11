@@ -49,7 +49,37 @@ $(function() {
             $("#form_collection_billets_produit option[value=1]").attr('selected','selected');
             $("#form_collection_billets_produit option[value=2]").removeAttr('selected');
         }
+
+        // Rquête ajax pour verifier si le nombre de visiteur
+        // du jour choisie ne depasse 1000 visiteurs.
+        var $dateChoisie = $('.datePicker').val();
+        var $url = 'http://projet4.fr/app_dev.php/count-visitors/'+ $dateChoisie;
+        $.ajax({
+            url: $url,
+            data: {
+                format: 'json'
+            },
+
+            success: function(data) {
+                //var $result = $('<h1>').text(data);
+                var $result = $('<span id="alert" class="alert alert-danger"></span>').text('La date choisie et invalide');
+                if (data >= 3) {
+                    $('#alert').remove();
+                    $('#message').show();
+                    $('.datePicker').val('');
+                    $('#message')
+                        .append($result)
+                }
+            },
+            type: 'GET'
+        });
+        setTimeout(function (){
+            message.style.display = "none";
+        }, 2000);
     });
+
+
+
 
 
 
@@ -155,5 +185,5 @@ $(function() {
 
     }
 
-
 });
+
