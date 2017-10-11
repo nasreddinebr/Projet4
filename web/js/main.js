@@ -1,12 +1,27 @@
 $(function() {
     // DatePicker
     // On recupere les jours de fermeture qu'on importer depuis la DB
-    var daysToDisable = []; // Les jours de fermeture
-    $('.jourFermer').ech(function (index, element) {
+    /*var daysToDisable = []; // Les jours de fermeture
+    $('.jourFermer').each(function (index, element) {
         daysToDisable[index] = $(element).val();
     });
+    for (var i = 0; i < daysToDisable.length; i++) {
+        console.log(daysToDisable[i]);
+    }*/
+    var txt2=[];
+    //pour chaque textarea, on déclenche une fonction qui parcours l'objet textearea
+    $('.jourFermer').each(function(index,element){
+        //on stocke les éléments récupéré dans notre chaine de caractères
+
+        txt2[index] = $(element).val();
+    });
+    //on affiche le résultat sous forme d'alerte
+    for (var i = 0; i < txt2.length; i++) {
+        console.log(txt2[i]);
+    }
+
     // Integration de datepicker et desactivation des jours de fermeture
-    $( "#form_collection_billets_dateReservation" ).datepicker({
+    /*$( "#form_collection_billets_dateReservation" ).datepicker({
         dateFormat: 'dd-mm-yy',
         minDate: 0,
         beforeShowDay: function (date) {
@@ -15,15 +30,18 @@ $(function() {
             var currentDate =date.getDate();
             if (day == 2) { // desactivation de tou les mardi
                 return [false];
-            }else if ($.inArray(currentDate + '/' + (month + 1), daysToDisable) != -1){
+            //}else if ($.inArray(currentDate + '/' + (month + 1), daysToDisable) != -1){
+            }else if ($.inArray(currentDate + '/' + (month + 1), txt2) != -1){
                 // Desactivation des jour ferier
                 return [false];
             } else {
                 return [true];
             }
         }
-    });
+    });*/
 
+
+/*
     //Form Collection
     // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
     var $container = $('div#form_collection_clients');
@@ -124,5 +142,5 @@ $(function() {
         //$prototype.append($paiementForm);
         $($paiementForm).insertAfter($($prototype));
 
-    }
+    }*/
 });
