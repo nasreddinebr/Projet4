@@ -17,7 +17,7 @@ $(function() {
     });
     //on affiche le résultat sous forme d'alerte
     for (var i = 0; i < txt2.length; i++) {
-        console.log(txt2[i]);
+        alert(txt2);
     }
 
     // Integration de datepicker et desactivation des jours de fermeture
