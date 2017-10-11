@@ -10,4 +10,10 @@ namespace OC\LouvreBundle\Repository;
  */
 class ClientsRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function countVisitorsOfDate($dateReservation) {
+        $query = $this->_em->createQuery('SELECT COUNT (cl) FROM OCLouvreBundle:Clients cl WHERE cl.dateReservation=:dateRes');
+        $query->setParameter('dateRes', $dateReservation);
+        return $query->getSingleResult();
+    }
+
 }

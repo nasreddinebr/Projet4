@@ -5,6 +5,7 @@ namespace OC\LouvreBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Validator\Constraints\Date;
 
 class LouvreController extends Controller
 {
@@ -14,18 +15,14 @@ class LouvreController extends Controller
         return new Response($contenue);
     }
 
-    public function jourFerierAction() {
-
-        $repository = $this
+    public function countVisitorsAction($dateChoisie) {
+        $dateVisite = new \DateTime($dateChoisie);
+        $visitorsNumber = $this
             ->getDoctrine()
             ->getManager()
-            ->getRepository('OCLouvreBundle:JoursFermeture');
-        $joursFermeture = $repository->findAll();
+            ->getRepository('OCLouvreBundle:Clients')
+            ->countVisitorsOfDate($dateVisite->format('Y-m-d'));
 
-        foreach ($joursFermeture as $jourFermeture) {
-            $dateADescativer[] = $jourFermeture->getJoursFermeture();
-        }
-        var_dump($dateADescativer);
-        return new Response(array($dateADescativer));
+        return new Response($visitorsNumber[1]);
     }
 }

@@ -21,7 +21,7 @@ oc_louvre_enregistrer:
         _controller: OCLouvreBundle:Louvre:enregistrerBillets
 
 oc_louvre_jour_ferier:
-    path:     /jour-ferier
+    path:     /count-visitors/{dateChoisie}
     defaults:
-        _controller: OCLouvreBundle:Louvre:jourFerier
+        _controller: OCLouvreBundle:Louvre:countVisitors
 
