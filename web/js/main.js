@@ -1,4 +1,5 @@
 $(function() {
+
     // DatePicker
     // On recupere les jours de fermeture qu'on importer depuis la DB
     var daysToDisable = []; // Les jours de fermeture
@@ -23,6 +24,30 @@ $(function() {
             } else {
                 return [true];
             }
+        }
+    });
+
+    /*
+     * On desactive le billet Journer si le client veul acheter son billet pour le jour méme,
+     * et que l'heur a dépasser 14h.
+     *
+     * On verifie si le nombre des visiteur ne dépasse pas 1000 pessone le jour de visite choisie
+     */
+    $('.datePicker').change(function(){
+        // Désactivation du billet journee aprés 14h du jour méme
+        var datch = $('.datePicker').val().split('-');
+        var dateChoisie = new Date(datch[2], datch[1], datch[0]);
+        var now = new Date();
+        var heur = now.getHours();
+
+        if ((dateChoisie.getDate() == now.getDate()) && (dateChoisie.getMonth() == (now.getMonth()+1)) && (dateChoisie.getFullYear() == now.getFullYear()) && (heur >= 14)) {
+            $("#form_collection_billets_produit option[value=2]").attr('selected','selected');
+            $("#form_collection_billets_produit option[value=1]").removeAttr('selected');
+            $('#form_collection_billets_produit option[value=1]').hide();
+        }else {
+            $('#form_collection_billets_produit option[value=1]').show();
+            $("#form_collection_billets_produit option[value=1]").attr('selected','selected');
+            $("#form_collection_billets_produit option[value=2]").removeAttr('selected');
         }
     });
 
