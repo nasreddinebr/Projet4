@@ -25,3 +25,8 @@ oc_louvre_jour_ferier:
     defaults:
         _controller: OCLouvreBundle:Louvre:countVisitors
 
+oc_louvre_prix:
+    path:     /prix/{dateNaissance}/{dateVisite}/{idProduit}
+    defaults:
+        _controller: OCLouvreBundle:Louvre:prix
+

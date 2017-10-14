@@ -59,12 +59,15 @@ class AchatBilletLouvreController extends Controller
                         $serviceDateNasisance = $this->container->get('oc_louvre.datesNassances');
                         $datesNaissance = $serviceDateNasisance->datesNaissances($client);
 
+
+
                         // Recupération des idTarif
                         $serviceImportTarif = $this->container->get('oc_louvre.importTarif');
                         $idTarif = $serviceImportTarif->getIdTarif($datesNaissance, $dateReservation);
                     }
 
                     $idTarifs[] = $idTarif['id'];
+
                 }
 
                 // Génération du numéro du billetTab

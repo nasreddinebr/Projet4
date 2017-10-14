@@ -9,8 +9,22 @@
 #divnum {
     margin-right: 3px;
 }
-label {
+/*label {
     text-align: left;
 
+}*/
+#panier, #form {
+    border: 1px solid white;
 }
 
+#formulaire {
+    margin-top: 20px;
+}
+
+#titre, #panierIcon, #visiteur{
+    text-align: center;
+}
+
+#cart{
+    margin-top: 10px;
+}

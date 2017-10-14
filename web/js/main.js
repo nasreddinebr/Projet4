@@ -1,13 +1,16 @@
 $(function() {
+    // Variables
+    var dateNaissance = [];
+    var daysToDisable = []; // Les jours de fermeture
 
     // DatePicker
     // On recupere les jours de fermeture qu'on importer depuis la DB
-    var daysToDisable = []; // Les jours de fermeture
+
     $('.jourFermer').each(function (index, element) {
         daysToDisable[index] = $(element).val();
     });
 
-    // Integration de datepicker et desactivation des jours de fermeture
+    // Integration de datepicker et desactivation des jours de fermeture à la date de reservation
     $( "#form_collection_billets_dateReservation" ).datepicker({
         dateFormat: 'dd-mm-yy',
         minDate: 0,
@@ -39,6 +42,7 @@ $(function() {
         var dateChoisie = new Date(datch[2], datch[1], datch[0]);
         var now = new Date();
         var heur = now.getHours();
+
 
         if ((dateChoisie.getDate() == now.getDate()) && (dateChoisie.getMonth() == (now.getMonth()+1)) && (dateChoisie.getFullYear() == now.getFullYear()) && (heur >= 14)) {
             $("#form_collection_billets_produit option[value=2]").attr('selected','selected');
@@ -78,11 +82,6 @@ $(function() {
         }, 2000);
     });
 
-
-
-
-
-
     //Form Collection
     // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
     var $container = $('div#form_collection_clients');
@@ -93,23 +92,92 @@ $(function() {
     // Nombre de visiteurs
     $('#add_client').on('click', function(e) {
         var $number = document.getElementById("num").value;
-        if (index == 0) {
-            // On ajoute les champs selon le nombre des visiteur
-            addClient($container, $number);
-            ajoutPaiementForm($container);
-        } else {
-            //si le client change le nombre de visiteur et s'il exist déja des champs on les supprime
-            for (var i = 0; i < index; i++) {
-                $container.children('div').each(function() {
-                    addDeleteLink($(this));
-                });
+        if ($number) {
+            if (index == 0) {
+                // On ajoute les champs selon le nombre des visiteur
+                addClient($container, $number);
+                ajoutPaiementForm($container);
+                //alert(dateNaissance);
+            } else {
+                //si le client change le nombre de visiteur et s'il exist déja des champs on les supprime
+                for (var i = 0; i < index; i++) {
+                    $container.children('div').each(function() {
+                        addDeleteLink($(this));
+                    });
+                }
+                index = 0;
+                // On recrée les champ des selon le nouveaux nombre des visiteurs
+                addClient($container, $number);
             }
-            index = 0;
-            // On recrée les champ des selon le nouveaux nombre des visiteurs
-            addClient($container, $number);
+        }else {
+            alert('Vous devais choisire le nombre de visiteur')
         }
+
+        // Integration et parametrage de datepicker a la date de naissance
+        $( ".dateNaissance" ).datepicker({
+            yearRange: "1900:+nn",
+            maxDate: "-4y",
+            changeMonth: true,
+            changeYear: true,
+            dateFormat: 'dd-mm-yy'
+        });
         e.preventDefault(); // évite qu'un # apparaisse dans l'URL
     });
+
+    //Importer le tarif selon la date de naissance
+    $('body').delegate('.dateNaissance', 'change', function() {
+
+        var id =$(this).attr("id");
+        var dateN = $("#"+id).val();
+        //alert(id);
+        /*if ($.inArray(id, dateNaissance) != -1){
+            var dateN = $("#"+id).val();
+            var $age = age(dateN);
+            if ($age <= 12) {
+                $('[]').hide();
+
+            }
+
+            //alert(test);
+        }*/
+
+    });
+
+    function prix($dateNaissance){
+        var $dateChoisie = $('.datePicker').val();
+        var $url = 'http://projet4.fr/app_dev.php/prix/' + $dateNaissance + '/' + $dateChoisie;
+
+        var $prix = $.ajax({
+            url: $url,
+            data: {
+                format: 'json'
+            },
+
+            success: function(data) {
+                var $result = data;
+
+            },
+            type: 'GET'
+        });
+        return $prix
+    }
+
+    function age($dateNassance) {
+        $dateNassance = $dateNassance.split('-').reverse().join('-');
+        $dateNassance = new Date($dateNassance);
+        var jour = $dateNassance.getDate();
+        var moi = $dateNassance.getMonth();
+        var annee = $dateNassance.getFullYear();
+        var aujourdhuit = new Date('2017-11-05');
+        if ((moi < aujourdhuit.getMonth()) || (moi == aujourdhuit.getMonth() && jour < aujourdhuit.getDate())) {
+           var $age = aujourdhuit.getFullYear() - annee - 1;
+        }else {
+            var $age = aujourdhuit.getFullYear() - annee;
+        }
+        return $age;
+    }
+
+
 
     // La fonction qui ajoute un formulaire CategoryType
     function addClient($container, $number) {
@@ -126,6 +194,8 @@ $(function() {
 
             // On ajoute le prototype modifié à la fin de la balise <div>
             $container.append($prototype);
+            //dateNaissance[index] = "form_collection_clients_" + index + "_dateNaissance_year";
+            dateNaissance[index] = "form_collection_clients_" + index + "_dateNaissance";
 
             // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
             index++;

@@ -25,4 +25,21 @@ class LouvreController extends Controller
 
         return new Response($visitorsNumber[1]);
     }
+
+    public function prixAction($dateNaissance, $dateVisite, $idProduit) {
+        $dateNaissance = explode('-', $dateNaissance);
+
+        // Recupération des idTarif
+        $serviceImportTarif = $this->container->get('oc_louvre.importTarif');
+        $idTarif = $serviceImportTarif->getIdTarif($dateNaissance, $dateVisite);
+
+        // Recuperation de prix par visiteur
+        $prix = $this
+            ->getDoctrine()
+            ->getManager()
+            ->getRepository('OCLouvreBundle:TarifProduit')
+            ->findPrix($idTarif, $idProduit);
+
+        return new Response($prix['0']);
+    }
 }
