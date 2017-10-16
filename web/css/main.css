@@ -9,10 +9,7 @@
 #divnum {
     margin-right: 3px;
 }
-/*label {
-    text-align: left;
 
-}*/
 #panier, #form {
     border: 1px solid white;
 }
@@ -28,3 +25,14 @@
 #cart{
     margin-top: 10px;
 }
+
+th, td {
+    padding: 15px;
+}
+
+.leftText {
+    text-align: left;
+}
+/*label{
+    font-size: 13px;
+}*/

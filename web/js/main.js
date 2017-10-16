@@ -2,6 +2,7 @@ $(function() {
     // Variables
     var dateNaissance = [];
     var daysToDisable = []; // Les jours de fermeture
+    var $url, $result;
 
     // DatePicker
     // On recupere les jours de fermeture qu'on importer depuis la DB
@@ -57,25 +58,17 @@ $(function() {
         // Rquête ajax pour verifier si le nombre de visiteur
         // du jour choisie ne depasse 1000 visiteurs.
         var $dateChoisie = $('.datePicker').val();
-        var $url = 'http://projet4.fr/app_dev.php/count-visitors/'+ $dateChoisie;
-        $.ajax({
-            url: $url,
-            data: {
-                format: 'json'
-            },
+        $url = 'count-visitors/'+ $dateChoisie;
 
-            success: function(data) {
-                //var $result = $('<h1>').text(data);
-                var $result = $('<span id="alert" class="alert alert-danger"></span>').text('La date choisie et invalide');
-                if (data >= 3) {
-                    $('#alert').remove();
-                    $('#message').show();
-                    $('.datePicker').val('');
-                    $('#message')
-                        .append($result)
-                }
-            },
-            type: 'GET'
+        ajax_call($url, function(data) {
+            $result = $('<span id="alert" class="alert alert-danger"></span>').text('La date choisie et invalide');
+            if (data >= 3) {
+                $('#alert').remove();
+                $('#message').show();
+                $('.datePicker').val('');
+                $('#message')
+                    .append($result)
+            }
         });
         setTimeout(function (){
             message.style.display = "none";
@@ -97,7 +90,6 @@ $(function() {
                 // On ajoute les champs selon le nombre des visiteur
                 addClient($container, $number);
                 ajoutPaiementForm($container);
-                //alert(dateNaissance);
             } else {
                 //si le client change le nombre de visiteur et s'il exist déja des champs on les supprime
                 for (var i = 0; i < index; i++) {
@@ -124,42 +116,51 @@ $(function() {
         e.preventDefault(); // évite qu'un # apparaisse dans l'URL
     });
 
-    //Importer le tarif selon la date de naissance
+    var total = 0;
+    //Importer les prix selon la date de naissance
     $('body').delegate('.dateNaissance', 'change', function() {
-
         var id =$(this).attr("id");
+        var dateVisite = $("#form_collection_billets_dateReservation").val();
+        var typeBillet = $("#form_collection_billets_produit").val();
         var dateN = $("#"+id).val();
-        //alert(id);
-        /*if ($.inArray(id, dateNaissance) != -1){
-            var dateN = $("#"+id).val();
-            var $age = age(dateN);
-            if ($age <= 12) {
-                $('[]').hide();
-
+        $url ='prix/' + dateN + '/' + dateVisite + '/' + typeBillet ;
+        var key = id.substr(24,1);
+        ajax_call($url, function(data) {
+            var prix = parseFloat(data);
+            // Si le prix et existe déja, on le modifie sinon on le crée puis on calcule le total
+            if (document.getElementById(key)) {
+                var soustraire = $('#'+key).text();
+                $('#'+key).text(prix.toFixed(2));
+                total -= parseFloat(soustraire);
+            }else {
+                $result = $('<tr><td>Visiteur ' + (parseInt(key)+1) + '     </td>\n' +
+                    '<td class="leftText"><span id="' + key + '">' + prix.toFixed(2) + '</span> €</td></tr>');
+                $('#detaillePrix').append($result);
             }
-
-            //alert(test);
-        }*/
-
+            total += prix;
+            $('#total').text(total.toFixed(2));
+        });
+        // Si le visiteur et un enfant en cache le tarif reduit
+        var $age = age(dateN);
+        if ($age <= 12){
+            $('#form_collection_clients_'+(key)+'_tarifReduit').parents('label').hide();
+        }else {
+            $('#form_collection_clients_'+(key)+'_tarifReduit').parents('label').show();
+        }
     });
 
-    function prix($dateNaissance){
-        var $dateChoisie = $('.datePicker').val();
-        var $url = 'http://projet4.fr/app_dev.php/prix/' + $dateNaissance + '/' + $dateChoisie;
-
-        var $prix = $.ajax({
-            url: $url,
+    function ajax_call($url, callback){
+        $.ajax({
+            url: 'http://projet4.fr/app_dev.php/' + $url,
             data: {
                 format: 'json'
             },
 
             success: function(data) {
-                var $result = data;
-
+                callback.call(this, data);
             },
             type: 'GET'
         });
-        return $prix
     }
 
     function age($dateNassance) {
@@ -187,7 +188,8 @@ $(function() {
             // - le texte "__name__" qu'il contient par le numéro du champ
             var template = $container.attr('data-prototype')
                 .replace(/__name__label__/g, 'Client n°' + (index + 1))
-                .replace(/__name__/g, index);
+                .replace(/__name__/g, index)
+                .replace('col-sm-2', 'col-sm-4');
 
             // On crée un objet jquery qui contient ce template
             var $prototype = $(template);
