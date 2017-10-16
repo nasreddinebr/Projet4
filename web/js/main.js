@@ -125,28 +125,35 @@ $(function() {
         var dateN = $("#"+id).val();
         $url ='prix/' + dateN + '/' + dateVisite + '/' + typeBillet ;
         var key = id.substr(24,1);
+
+        // Si le visiteur et un enfant on décoche le tarif reduit et on le cache
+        var $age = age(dateN);
+        var checkB = 'form_collection_clients_'+(key)+'_tarifReduit';
+        if ($age <= 12){
+            document.getElementById(checkB).checked = false;
+            $('#'+checkB).parents('label').hide();
+        }else {
+            $('#'+checkB).parents('label').show();
+        }
+
         ajax_call($url, function(data) {
             var prix = parseFloat(data);
-            // Si le prix et existe déja, on le modifie sinon on le crée puis on calcule le total
-            if (document.getElementById(key)) {
-                var soustraire = $('#'+key).text();
-                $('#'+key).text(prix.toFixed(2));
-                total -= parseFloat(soustraire);
-            }else {
-                $result = $('<tr><td>Visiteur ' + (parseInt(key)+1) + '     </td>\n' +
-                    '<td class="leftText"><span id="' + key + '">' + prix.toFixed(2) + '</span> €</td></tr>');
-                $('#detaillePrix').append($result);
+            if($('#'+checkB).is(':checked') != true) {
+                // Si le prix et existe déja, on le modifie sinon on le crée puis on calcule le total
+                if (document.getElementById(key)) {
+                    var soustraire = $('#'+key).text();
+                    $('#'+key).text(prix.toFixed(2));
+                    total -= parseFloat(soustraire);
+                }else {
+                    $result = $('<tr><td>Visiteur ' + (parseInt(key)+1) + '     </td>\n' +
+                        '<td class="leftText"><span id="' + key + '">' + prix.toFixed(2) + '</span> €</td></tr>');
+                    $('#detaillePrix').append($result);
+                }
+                total += prix;
+                $('#total').text(total.toFixed(2));
             }
-            total += prix;
-            $('#total').text(total.toFixed(2));
         });
-        // Si le visiteur et un enfant en cache le tarif reduit
-        var $age = age(dateN);
-        if ($age <= 12){
-            $('#form_collection_clients_'+(key)+'_tarifReduit').parents('label').hide();
-        }else {
-            $('#form_collection_clients_'+(key)+'_tarifReduit').parents('label').show();
-        }
+
     });
 
     function ajax_call($url, callback){
