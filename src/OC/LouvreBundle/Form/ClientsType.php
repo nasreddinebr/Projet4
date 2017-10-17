@@ -32,6 +32,7 @@ class ClientsType extends AbstractType
             ->add('tarifReduit', CheckboxType::class, array(
                 'label'     => 'Tarif réduit',
                 'required'  => false,
+                'attr'      => array('class' => 'tarifReduit')
             ))
             ->add('pays', CountryType::class);
     }

@@ -15,11 +15,6 @@ oc_louvre_detaille:
     requirements:
         id: \d+
 
-oc_louvre_enregistrer:
-    path:     /billetterie/enregistrer
-    defaults:
-        _controller: OCLouvreBundle:Louvre:enregistrerBillets
-
 oc_louvre_jour_ferier:
     path:     /count-visitors/{dateChoisie}
     defaults:
@@ -29,4 +24,11 @@ oc_louvre_prix:
     path:     /prix/{dateNaissance}/{dateVisite}/{idProduit}
     defaults:
         _controller: OCLouvreBundle:Louvre:prix
+
+oc_louvre_tarif_reduit:
+    path:     /reduit/{tarifReduit}/{typeProduit}
+    defaults:
+        _controller: OCLouvreBundle:Louvre:tarifReduit
+
+
 

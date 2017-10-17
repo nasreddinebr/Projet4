@@ -117,6 +117,7 @@ $(function() {
     });
 
     var total = 0;
+
     //Importer les prix selon la date de naissance
     $('body').delegate('.dateNaissance', 'change', function() {
         var id =$(this).attr("id");
@@ -140,21 +141,38 @@ $(function() {
             var prix = parseFloat(data);
             if($('#'+checkB).is(':checked') != true) {
                 // Si le prix et existe déja, on le modifie sinon on le crée puis on calcule le total
-                if (document.getElementById(key)) {
-                    var soustraire = $('#'+key).text();
-                    $('#'+key).text(prix.toFixed(2));
-                    total -= parseFloat(soustraire);
-                }else {
-                    $result = $('<tr><td>Visiteur ' + (parseInt(key)+1) + '     </td>\n' +
-                        '<td class="leftText"><span id="' + key + '">' + prix.toFixed(2) + '</span> €</td></tr>');
-                    $('#detaillePrix').append($result);
-                }
-                total += prix;
-                $('#total').text(total.toFixed(2));
+                calculPrix(prix, key);
             }
         });
-
     });
+
+    // Tarif Reduit
+    $('body').delegate('.tarifReduit', 'change', function() {
+        var id =$(this).attr("id");
+        var key = id.substr(24,1);
+        var typeBillet = $("#form_collection_billets_produit").val();
+        var checkBo=$('#'+id).val();
+            $url ='reduit/' + checkBo + '/' + typeBillet;
+            ajax_call($url, function(data) {
+                var prix = parseFloat(data);
+                calculPrix(prix, key);
+            });
+    });
+
+    // Si le prix et existe déja, on le modifie sinon on le crée puis on calcule le total
+    function calculPrix(prix, key) {
+        if (document.getElementById(key)) {
+            var soustraire = $('#'+key).text();
+            $('#'+key).text(prix.toFixed(2));
+            total -= parseFloat(soustraire);
+        }else {
+            $result = $('<tr><td>Visiteur ' + (parseInt(key)+1) + '     </td>\n' +
+                '<td class="leftText"><span id="' + key + '">' + prix.toFixed(2) + '</span> €</td></tr>');
+            $('#detaillePrix').append($result);
+        }
+        total += prix;
+        $('#total').text(total.toFixed(2));
+    }
 
     function ajax_call($url, callback){
         $.ajax({
@@ -203,8 +221,6 @@ $(function() {
 
             // On ajoute le prototype modifié à la fin de la balise <div>
             $container.append($prototype);
-            //dateNaissance[index] = "form_collection_clients_" + index + "_dateNaissance_year";
-            dateNaissance[index] = "form_collection_clients_" + index + "_dateNaissance";
 
             // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
             index++;
