@@ -1,10 +1,14 @@
 {% extends "OCLouvreBundle::layout.html.twig" %}
 
+{% block navbar %}
+    {{ include("OCLouvreBundle:Louvre:nav_bar_billet.html.twig") }}
+{% endblock %}
+
 {% block body %}
-    <div style="margin-top: 100px; background: #42A5F5; color: white">
+    <div id="baniere">
         <p>
             <a title="Retour à l'accueil" id="path-home" href="{{ path('oc_louvre_homepage') }}">
-                Retour à l'accueil
+                Louvre
             </a>
             <span>&gt;</span>
             <span class="crumbName">Billetrie automatique</span>
@@ -48,9 +52,11 @@
                                 </tr>
                             </table>
                             <br><br>
-                            <div>Total : ............................................<span id="total">0.00</span> €</div>
-
+                            <div><p>Total : ............................................<span id="total">0.00</span> €</p></div>
                         </div>
+                        <br><br>
+                        <div><p id="messageInfo"></p></div>
+
                     </div>
 
                 </div>

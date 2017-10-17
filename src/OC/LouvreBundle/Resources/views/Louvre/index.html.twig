@@ -5,6 +5,9 @@
 {% block title %}
     Page d'accueil - {{ parent() }}
 {% endblock %}
+{% block navbar %}
+    {{ include("OCLouvreBundle:Louvre:nav_bar_home.html.twig") }}
+{% endblock %}
 
 {% block body %}
     <!-- Intro Header -->

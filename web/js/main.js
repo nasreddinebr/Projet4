@@ -1,12 +1,13 @@
 $(function() {
     // Variables
-    var dateNaissance = [];
     var daysToDisable = []; // Les jours de fermeture
     var $url, $result;
+    var dateVisite = $("#form_collection_billets_dateReservation").val();
+    var typeBillet = $("#form_collection_billets_produit").val();
+    var total = 0;
 
     // DatePicker
     // On recupere les jours de fermeture qu'on importer depuis la DB
-
     $('.jourFermer').each(function (index, element) {
         daysToDisable[index] = $(element).val();
     });
@@ -21,7 +22,6 @@ $(function() {
             var currentDate =date.getDate();
             if (day == 2) { // desactivation de tou les mardi
                 return [false];
-            //}else if ($.inArray(currentDate + '/' + (month + 1), daysToDisable) != -1){
             }else if ($.inArray(currentDate + '/' + (month + 1), daysToDisable) != -1){
                 // Desactivation des jour ferier
                 return [false];
@@ -105,7 +105,7 @@ $(function() {
             alert('Vous devais choisire le nombre de visiteur')
         }
 
-        // Integration et parametrage de datepicker a la date de naissance
+        // Integration et parametrage de datepicker pour la date de naissance
         $( ".dateNaissance" ).datepicker({
             yearRange: "1900:+nn",
             maxDate: "-4y",
@@ -116,13 +116,11 @@ $(function() {
         e.preventDefault(); // évite qu'un # apparaisse dans l'URL
     });
 
-    var total = 0;
+
 
     //Importer les prix selon la date de naissance
     $('body').delegate('.dateNaissance', 'change', function() {
         var id =$(this).attr("id");
-        var dateVisite = $("#form_collection_billets_dateReservation").val();
-        var typeBillet = $("#form_collection_billets_produit").val();
         var dateN = $("#"+id).val();
         $url ='prix/' + dateN + '/' + dateVisite + '/' + typeBillet ;
         var key = id.substr(24,1);
@@ -132,6 +130,7 @@ $(function() {
         var checkB = 'form_collection_clients_'+(key)+'_tarifReduit';
         if ($age <= 12){
             document.getElementById(checkB).checked = false;
+            $('#info').remove();
             $('#'+checkB).parents('label').hide();
         }else {
             $('#'+checkB).parents('label').show();
@@ -141,7 +140,7 @@ $(function() {
             var prix = parseFloat(data);
             if($('#'+checkB).is(':checked') != true) {
                 // Si le prix et existe déja, on le modifie sinon on le crée puis on calcule le total
-                calculPrix(prix, key);
+                calculePrix(prix, key);
             }
         });
     });
@@ -150,17 +149,32 @@ $(function() {
     $('body').delegate('.tarifReduit', 'change', function() {
         var id =$(this).attr("id");
         var key = id.substr(24,1);
-        var typeBillet = $("#form_collection_billets_produit").val();
         var checkBo=$('#'+id).val();
+        // Si on coche le tarif reduit Import le prix reduit
+        // sinon import le tarif normale
+        if($('#'+id).is(':checked') == true) {
             $url ='reduit/' + checkBo + '/' + typeBillet;
             ajax_call($url, function(data) {
                 var prix = parseFloat(data);
-                calculPrix(prix, key);
+                calculePrix(prix, key);
+                var messageInfo = '<span id="info">vous devez présenter votre justificatif pour le tarif Reduit le jour de votre visite à l\'entrer du musée (Carte étudiant, militaire ou équivalent)</span>';
+                $('#messageInfo').append(messageInfo);
             });
+
+        }else {
+            $('#info').remove();
+            var dateN = $('#form_collection_clients_'+key+'_dateNaissance').val();
+            $url ='prix/' + dateN + '/' + dateVisite + '/' + typeBillet ;
+            ajax_call($url, function(data) {
+                var prix = parseFloat(data);
+                // Si le prix et existe déja, on le modifie sinon on le crée puis on calcule le total
+                calculePrix(prix, key);
+            });
+        }
     });
 
     // Si le prix et existe déja, on le modifie sinon on le crée puis on calcule le total
-    function calculPrix(prix, key) {
+    function calculePrix(prix, key) {
         if (document.getElementById(key)) {
             var soustraire = $('#'+key).text();
             $('#'+key).text(prix.toFixed(2));
@@ -174,6 +188,7 @@ $(function() {
         $('#total').text(total.toFixed(2));
     }
 
+    // Fuction des requettes Ajax
     function ajax_call($url, callback){
         $.ajax({
             url: 'http://projet4.fr/app_dev.php/' + $url,
@@ -188,6 +203,7 @@ $(function() {
         });
     }
 
+    // Function de calcule d'age
     function age($dateNassance) {
         $dateNassance = $dateNassance.split('-').reverse().join('-');
         $dateNassance = new Date($dateNassance);
