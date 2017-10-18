@@ -166,7 +166,7 @@ class AchatBilletLouvreController extends Controller
             $this->get('mailer')->send($message);
 
             //$request->getSession()->getFlashBag()->add('notice', 'Annonce bien enregistrée.');
-            return $this->redirectToRoute('oc_louvre_detaille', array(
+            return $this->redirectToRoute('oc_louvre_detaile', array(
                 'id'        => $billet->getId(),
                 'produit'   => $billet->getProduit()->getNomProduit()
             ));

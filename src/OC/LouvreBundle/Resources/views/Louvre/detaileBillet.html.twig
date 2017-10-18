@@ -1,5 +1,9 @@
 {% extends "OCLouvreBundle::layout.html.twig" %}
 
+{% block navbar %}
+    {{ include("OCLouvreBundle:Louvre:nav_bar_billet.html.twig") }}
+{% endblock %}
+
 {% block body %}
     <style>
         body{
