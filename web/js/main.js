@@ -153,7 +153,7 @@ $(function() {
         // Si on coche le tarif reduit Import le prix reduit
         // sinon import le tarif normale
         if($('#'+id).is(':checked') == true) {
-            $url ='reduit/' + checkBo + '/' + typeBillet;
+            $url ='tarif-reduit/' + checkBo + '/' + typeBillet;
             ajax_call($url, function(data) {
                 var prix = parseFloat(data);
                 calculePrix(prix, key);
@@ -191,7 +191,7 @@ $(function() {
     // Fuction des requettes Ajax
     function ajax_call($url, callback){
         $.ajax({
-            url: 'http://projet4.fr/app_dev.php/' + $url,
+            url: 'http://projet4.fr/' + $url,
             data: {
                 format: 'json'
             },

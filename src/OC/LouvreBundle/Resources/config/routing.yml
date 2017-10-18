@@ -26,7 +26,7 @@ oc_louvre_prix:
         _controller: OCLouvreBundle:Louvre:prix
 
 oc_louvre_tarif_reduit:
-    path:     /reduit/{tarifReduit}/{typeProduit}
+    path:     /tarif-reduit/{tarifReduit}/{typeProduit}
     defaults:
         _controller: OCLouvreBundle:Louvre:tarifReduit
 

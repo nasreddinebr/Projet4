@@ -4,7 +4,7 @@ namespace OC\LouvreBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-class DefaultControllerTest extends WebTestCase
+class LouvreControllerTest extends WebTestCase
 {
     public function testIndex()
     {

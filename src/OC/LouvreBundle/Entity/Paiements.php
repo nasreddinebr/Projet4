@@ -187,5 +187,28 @@ class Paiements
         return $this->sommePayee;
     }
 
+    /**
+     * @param array $billet
+     * @param Paiements $paiement
+     * @param $numeroBillet
+     * @param $total
+     */
+    public function hydrate(array $paiement){
+        // Parcourire l'objet
+        foreach ($paiement as $key => $valeu){
+            // Onrecupére le nom du setter
+            $methode = 'set' . ucfirst($key);
+
+            // Si la le setter existe
+            if (method_exists($this, $methode)) {
+                // On apelle le seter corespondant et en le hydrate
+                $this->$methode($valeu);
+            }
+        }
+        $this->setNumeroBillet($numeroBillet);
+        $this->setPrixTotal($total);
+        $this->setPaiement($paiement);
+    }
+
 }
 
