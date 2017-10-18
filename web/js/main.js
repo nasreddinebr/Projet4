@@ -38,6 +38,7 @@ $(function() {
      * On verifie si le nombre des visiteur ne dépasse pas 1000 pessone le jour de visite choisie
      */
     $('.datePicker').change(function(){
+        dateVisite = $("#form_collection_billets_dateReservation").val();
         // Désactivation du billet journee aprés 14h du jour méme
         var datch = $('.datePicker').val().split('-');
         var dateChoisie = new Date(datch[2], datch[1], datch[0]);

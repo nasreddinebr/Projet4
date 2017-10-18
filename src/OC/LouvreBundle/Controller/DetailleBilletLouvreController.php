@@ -4,6 +4,7 @@ namespace OC\LouvreBundle\Controller;
 
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Config\Definition\Exception\Exception;
 
 /**
  * Class DetailleBilletLouvreController
@@ -15,12 +16,18 @@ class DetailleBilletLouvreController extends Controller
     public function detailleBilletsAction($id, $produit) {
 
         // Recuperration du billet
+
         $repositoriy = $this
             ->getDoctrine()
             ->getManager()
             ->getRepository('OCLouvreBundle:Billets');
         $billet = $repositoriy->find($id);
+        if (!$billet){
+             throw new Exception('Billet introuvable');
+        }
         $billet->getProduit()->setNomProduit($produit);
+
+
 
         // Recuperation des visiteurs
         $repositoriy = $this

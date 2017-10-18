@@ -19,7 +19,7 @@ class ApplicationRoutingTest extends WebTestCase
         return array(
           array('/'),
           array('/billetterie'),
-          array('/detaille/7/1'),
+          array('/detaille/1/1'),
           array('/count-visitors/20-11-2017'),
           array('/prix/17-08-1980/20-11-2017/1'),
           array('/tarif-reduit/1/1'),

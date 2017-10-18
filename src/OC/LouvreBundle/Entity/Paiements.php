@@ -205,9 +205,7 @@ class Paiements
                 $this->$methode($valeu);
             }
         }
-        $this->setNumeroBillet($numeroBillet);
-        $this->setPrixTotal($total);
-        $this->setPaiement($paiement);
+
     }
 
 }
