@@ -65,6 +65,10 @@ class AchatBilletLouvreController extends Controller
                         $serviceImportTarif = $this->container->get('oc_louvre.importTarif');
                         $idTarif = $serviceImportTarif->getIdTarif($datesNaissance, $dateReservation);
                     }
+                    var_dump($dateReservation);
+                    var_dump($datesNaissance);
+                    var_dump($idTarif);
+                    die();
 
                     $idTarifs[] = $idTarif['id'];
 
@@ -116,11 +120,6 @@ class AchatBilletLouvreController extends Controller
             // Hydratation de l'objet Billet
             $billet = new Billets();
             $billet->hydrate($extracteDonneeBillet, $paiement, $numeroBillet, $total);
-            $date = new \DateTime('2017-11-28');
-            var_dump($date->format('d-m-Y'));
-            //$billet->setDateReservation('28-11-2017');
-            var_dump($billet->getDateReservation());
-            die();
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($paiement);
@@ -148,6 +147,8 @@ class AchatBilletLouvreController extends Controller
                 $clients[] = $client;
                 $index++;
             }
+            var_dump($client);
+            die();
 
             $em->flush();
 

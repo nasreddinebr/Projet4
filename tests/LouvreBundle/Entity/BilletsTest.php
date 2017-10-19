@@ -2,10 +2,6 @@
 
 namespace Tests\LouvreBundle\Entity;
 
-
-use OC\LouvreBundle\Entity\Billets;
-use OC\LouvreBundle\Entity\Paiements;
-use OC\LouvreBundle\Entity\Produits;
 use PHPUnit\Framework\TestCase;
 
 

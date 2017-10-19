@@ -31,11 +31,11 @@ class TarifService
 
         // Recuperation de localisateur du tarif
         if ($age >= 4 && $age <= 12) {
-            $localisateurTarif[] = self::ENFANT;
+            $localisateurTarif = self::ENFANT;
         }elseif ($age > 12 && $age < 60) {
-            $localisateurTarif[] = self::NORMALE;
+            $localisateurTarif = self::NORMALE;
         }elseif ($age >= 60) {
-            $localisateurTarif[] = self::SENIOR;
+            $localisateurTarif = self::SENIOR;
         }
         return $localisateurTarif;
     }
