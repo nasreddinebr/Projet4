@@ -112,9 +112,15 @@ class AchatBilletLouvreController extends Controller
             foreach ($formCollection->getBillets() as $key => $value){
                 $extracteDonneeBillet[$key] = $value;
             }
+
             // Hydratation de l'objet Billet
             $billet = new Billets();
             $billet->hydrate($extracteDonneeBillet, $paiement, $numeroBillet, $total);
+            $date = new \DateTime('2017-11-28');
+            var_dump($date->format('d-m-Y'));
+            //$billet->setDateReservation('28-11-2017');
+            var_dump($billet->getDateReservation());
+            die();
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($paiement);

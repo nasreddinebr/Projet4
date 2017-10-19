@@ -9,7 +9,8 @@ use PHPUnit\Framework\TestCase;
 class PaiementsTest extends TestCase
 {
     /**
-     * Test que l'enssemble des attributs son coréctement valoriser
+     * Test que l'enssemble des attributs de l'entité Paiements
+     * son coréctement valoriser
      */
     public function testHydrate() {
         // Si
