@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client :  localhost:80
--- Généré le :  Mer 11 Octobre 2017 à 15:33
+-- Généré le :  Ven 20 Octobre 2017 à 11:55
 -- Version du serveur :  5.5.57-0+deb8u1
 -- Version de PHP :  5.6.30-0+deb8u1
 
@@ -33,7 +33,25 @@ CREATE TABLE IF NOT EXISTS `billets` (
   `numero_billet` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `date_resrvation` date NOT NULL,
   `prix_total` decimal(10,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Contenu de la table `billets`
+--
+
+INSERT INTO `billets` (`id`, `paiement_id`, `produit_id`, `numero_billet`, `date_resrvation`, `prix_total`) VALUES
+(1, 1, 1, '201711Oct-1000', '2017-10-18', 12.00),
+(2, 2, 1, '201711Oct-1001', '2017-10-18', 12.00),
+(3, 3, 1, '201711Oct-1002', '2017-10-18', 12.00),
+(4, 4, 1, '201711Oct-1003', '2017-10-19', 16.00),
+(5, 5, 2, '201711Oct-1004', '2017-10-11', 6.00),
+(6, 6, 1, '201713Oct-1005', '2017-10-19', 10.00),
+(7, 7, 1, '201716Oct-1006', '2017-10-19', 16.00),
+(8, 8, 1, '201719Oct-1007', '2017-10-26', 16.00),
+(9, 9, 1, '201719Oct-1008', '2017-10-26', 16.00),
+(10, 10, 1, '201719Oct-1009', '2017-10-26', 16.00),
+(11, 11, 1, '201720Oct-1010', '2017-10-28', 8.00),
+(12, 12, 1, '201720Oct-1011', '2017-10-27', 16.00);
 
 -- --------------------------------------------------------
 
@@ -51,7 +69,25 @@ CREATE TABLE IF NOT EXISTS `clients` (
   `pays` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `tarifReduit` tinyint(1) DEFAULT NULL,
   `dateReservation` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Contenu de la table `clients`
+--
+
+INSERT INTO `clients` (`id`, `billet_id`, `tarif_id`, `nom`, `prenom`, `date_naissance`, `pays`, `tarifReduit`, `dateReservation`) VALUES
+(1, 1, 3, 'test', 'test', '1897-01-01', 'AF', 0, '2017-10-18'),
+(2, 2, 3, 'test', 'test', '1897-01-01', 'AF', 0, '2017-10-18'),
+(3, 3, 3, 'trr', 'trr', '1897-01-01', 'AF', 0, '2017-10-18'),
+(4, 4, 1, 'rrr', 'rrr', '1980-01-01', 'AF', 0, '2017-10-19'),
+(5, 5, 4, 'tt', 'tt', '1997-01-01', 'AF', 1, '2017-10-11'),
+(6, 6, 4, 'NASREDDINE', 'BERRACHED', '1897-01-01', 'AF', 1, '2017-10-19'),
+(7, 7, 1, 'rtet', 'rtet', '1980-08-17', 'AF', 0, '2017-10-19'),
+(8, 8, 1, 'test', 'test', '1987-10-21', 'AF', 0, '2017-10-26'),
+(9, 9, 1, 'test', 'test', '1990-10-25', 'AF', 0, '2017-10-26'),
+(10, 10, 1, 'ttt', 'ttt', '1985-10-09', 'AF', 0, '2017-10-26'),
+(11, 11, 2, 'fgh', 'fgh', '2013-10-12', 'AF', 0, '2017-10-28'),
+(12, 12, 1, 'nasreddine', 'test', '1992-10-22', 'AF', 0, '2017-10-27');
 
 -- --------------------------------------------------------
 
@@ -118,7 +154,25 @@ CREATE TABLE IF NOT EXISTS `paiements` (
   `stripe_client_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `stripe_charge_id` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `somme_payee` decimal(10,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Contenu de la table `paiements`
+--
+
+INSERT INTO `paiements` (`id`, `titulaire_carte`, `email`, `stripe_client_id`, `stripe_charge_id`, `somme_payee`) VALUES
+(1, 'test', 'test@hotmail.fr', 'cli21548796363', 'user42515884555', 12.00),
+(2, 'test', 'test@hotmail.fr', 'cli21548796363', 'user42515884555', 12.00),
+(3, 'test', 'test@hotmail.fr', 'cli21548796363', 'user42515884555', 12.00),
+(4, 'test', 'test@hotmail.fr', 'cli21548796363', 'user42515884555', 16.00),
+(5, 'test', 'test@hotmail.fr', 'cli21548796363', 'user42515884555', 6.00),
+(6, 'BERRACHED NASREDDINE', 'nasreddine.be@hotmail.fr', 'cli21548796363', 'user42515884555', 10.00),
+(7, 'test', 'test@hotmail.fr', 'cli21548796363', 'user42515884555', 16.00),
+(8, 'BERRACHED NASREDDINE', 'nasreddine.be@hotmail.fr', 'cli21548796363', 'user42515884555', 16.00),
+(9, 'BERRACHED NASREDDINE', 'nasreddine.be@hotmail.fr', 'cli21548796363', 'user42515884555', 16.00),
+(10, 'BERRACHED NASREDDINE', 'nasreddine.be@hotmail.fr', 'cli21548796363', 'user42515884555', 16.00),
+(11, 'test', 'test@hotmail.fr', 'cus_BcAtRuuFNT2jvY', 'ch_1BEwXhGqcPu4aEB4Bl3wvFwN', 8.00),
+(12, 'nasr test', 'nasreddine.be@hotmail.fr', 'cus_BcBUAuODBJl8gJ', 'ch_1BEx7FGqcPu4aEB4I9sK2c4P', 16.00);
 
 -- --------------------------------------------------------
 
@@ -260,12 +314,12 @@ ALTER TABLE `tarif_produit`
 -- AUTO_INCREMENT pour la table `billets`
 --
 ALTER TABLE `billets`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT pour la table `clients`
 --
 ALTER TABLE `clients`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT pour la table `formCollection`
 --
@@ -280,7 +334,7 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
 -- AUTO_INCREMENT pour la table `paiements`
 --
 ALTER TABLE `paiements`
-MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT pour la table `produits`
 --
@@ -304,8 +358,8 @@ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 -- Contraintes pour la table `billets`
 --
 ALTER TABLE `billets`
-ADD CONSTRAINT `FK_4FCF9B68F347EFB` FOREIGN KEY (`produit_id`) REFERENCES `produits` (`id`),
-ADD CONSTRAINT `FK_4FCF9B682A4C4478` FOREIGN KEY (`paiement_id`) REFERENCES `paiements` (`id`);
+ADD CONSTRAINT `FK_4FCF9B682A4C4478` FOREIGN KEY (`paiement_id`) REFERENCES `paiements` (`id`),
+ADD CONSTRAINT `FK_4FCF9B68F347EFB` FOREIGN KEY (`produit_id`) REFERENCES `produits` (`id`);
 
 --
 -- Contraintes pour la table `clients`
