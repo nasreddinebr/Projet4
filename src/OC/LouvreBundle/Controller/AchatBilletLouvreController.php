@@ -65,10 +65,6 @@ class AchatBilletLouvreController extends Controller
                         $serviceImportTarif = $this->container->get('oc_louvre.importTarif');
                         $idTarif = $serviceImportTarif->getIdTarif($datesNaissance, $dateReservation);
                     }
-                    var_dump($dateReservation);
-                    var_dump($datesNaissance);
-                    var_dump($idTarif);
-                    die();
 
                     $idTarifs[] = $idTarif['id'];
 
@@ -99,17 +95,10 @@ class AchatBilletLouvreController extends Controller
 
             if (filter_var($email, FILTER_VALIDATE_EMAIL) && !empty($name) && !empty($token)) {
                 // Paiement et construction de l'instance $paiment
-                /*$paiementStripe = new PaimentStripe($token, $email, $name, $total);
-                $paiement = $paiementStripe->creePaiement();*/
-                /****
-                 * test Paiement
-                 */
-                $paiement = new Paiements();
-                $paiement->setSommePayee($total);
-                $paiement->setStripeChargeId("user42515884555");
-                $paiement->setStripeClientId("cli21548796363");
-                $paiement->setEmail($email);
-                $paiement->setTitulaireCarte($name);
+                $paiementStripe = new PaimentStripe($token, $email, $name, $total);
+                $paiement = $paiementStripe->creePaiement();
+            }else {
+                throw new Exception('Vous devez remplir les champs Titulaire de la carte ou Email');
             }
 
             // Exraction des donée pour hydrate l'objet Billets
@@ -147,8 +136,6 @@ class AchatBilletLouvreController extends Controller
                 $clients[] = $client;
                 $index++;
             }
-            var_dump($client);
-            die();
 
             $em->flush();
 
