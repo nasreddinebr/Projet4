@@ -11,9 +11,9 @@ use Symfony\Component\Config\Definition\Exception\Exception;
  *
  * @package \OC\LouvreBundle\Controller
  */
-class DetaileBilletLouvreController extends Controller
+class DetailBilletLouvreController extends Controller
 {
-    public function detaileBilletsAction($id, $produit) {
+    public function detailBilletAction($id, $produit) {
 
         // Recuperration du billet
 
@@ -67,7 +67,7 @@ class DetaileBilletLouvreController extends Controller
         $total = array_sum($listPrix);
 
         //return new Response("Votre enregistrement à bien été effectuer" . $id);
-        return $this->render('OCLouvreBundle:Louvre:detaileBillet.html.twig', array(
+        return $this->render('OCLouvreBundle:Louvre:detailBillet.html.twig', array(
             'billet'    => $billet,
             'clients'   => $clients,
             'email'     => $email,
