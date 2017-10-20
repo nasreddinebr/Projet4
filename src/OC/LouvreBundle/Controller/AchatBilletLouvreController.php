@@ -2,6 +2,7 @@
 
 namespace OC\LouvreBundle\Controller;
 
+use OC\LouvreBundle\Api\PaimentStripe;
 use OC\LouvreBundle\Entity\FormCollection;
 use OC\LouvreBundle\Entity\Paiements;
 use OC\LouvreBundle\Entity\Billets;
@@ -95,6 +96,7 @@ class AchatBilletLouvreController extends Controller
 
             if (filter_var($email, FILTER_VALIDATE_EMAIL) && !empty($name) && !empty($token)) {
                 // Paiement et construction de l'instance $paiment
+
                 $paiementStripe = new PaimentStripe($token, $email, $name, $total);
                 $paiement = $paiementStripe->creePaiement();
             }else {

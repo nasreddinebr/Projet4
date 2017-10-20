@@ -86,7 +86,7 @@ $(function() {
     // Nombre de visiteurs
     $('#add_client').on('click', function(e) {
         var $number = document.getElementById("num").value;
-        if ($number) {
+        if ($number > 0) {
             if (index == 0) {
                 // On ajoute les champs selon le nombre des visiteur
                 addClient($container, $number);
@@ -265,10 +265,11 @@ $(function() {
             '\t\t\t\t\t</div>\n' +
             '\t\t\t\t\t\n' +
             '\n' +
-            '\t\t\t\t\t<div class="form-inline col-sm-6">\n' +
+            '\t\t\t\t\t<div class="form-inline col-sm-8">\n' +
             '\t\t\t\t\t\t<label for="num-carte">Numéro de carte</label>\n' +
             '\t\t\t\t\t\t<input id="num-carte" class="form-control form-control-lg" type="text" placeholder="Votre code de carte bleu" value="4242 4242 4242 4242" data-stripe="number" required>\n' +
             '\t\t\t\t\t</div>\n' +
+            '\t\t\t\t\t\t<div id="messagError"></div>\n ' +
             '\t\t\t\t\t\n' +
             '\n' +
             '\t\t\t\t\t<div id="test" class="d-flex flex-row">\n' +
@@ -290,7 +291,7 @@ $(function() {
             '\t\t\t\t\t</div>\n' +
             '\t\t\t\t\t<br>\n' +
             '\t\t\t\t\t<div class="col-sm-12">\n' +
-            '\t\t\t\t\t\t<button type="submit" class="btn btn-primary">Valider</button>\n' +
+            '\t\t\t\t\t\t<button type="submit" id="valide" class="btn btn-primary">Valider</button>\n' +
             '\t\t\t\t\t</div>');
         //$prototype.append($paiementForm);
         $($paiementForm).insertAfter($($prototype));
